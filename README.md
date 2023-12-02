@@ -1,74 +1,61 @@
 # [Gamemakin](https://gamemak.in) UE4 Style Guide() {
 
-*A mostly reasonable approach to Unreal Engine 4*
+*最合理的UE4规范*
 
-Heavily inspired by the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript).
+灵感来源于Airbnb的JS规范 [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript).
 
-[![Analytics](https://ga-beacon.appspot.com/UA-80567399-1/repo?useReferrer)](#)
 
-## Repo Notice
+## 关于本工程的声明
 
-This repo is now located at https://github.com/Allar/ue5-style-guide. The default branch of this repository has been renamed `main`.
+当前工程的地址为 https://github.com/thejinchao/ue5-style-guide. 原英文工程地址为 https://github.com/Allar/ue5-style-guide. 缺省分支名已经改为 `main`.
 
-## This is currently for UE4. For UE5/v2, see the v2 branch
-## Linter and Style Guide Documentation
+## 关于Linter和规范的文档
 
-More technical documentation regarding Linter and the Style Guide can be found at our [ReadTheDocs](https://ue4-style-guide.readthedocs.io/en/latest/) page.
+更多关于Linter和工程规范的文档可以参考[这个页面](https://ue4-style-guide.readthedocs.io/en/latest/)
 
-## Discuss This Style Guide
+## 讨论该规范
 
-Gamemakin LLC has a public Discord channel at http://discord.gamemak.in with a #linter channel if you'd like to discuss all things style guide and Linter plugin.
+Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.in ，其中还包含了#linter聊天区，如果你有关于本套规范或者插件的任何想法，欢迎来讨论。
 
-## Linking To This Document
+## 链接到本文档
 
-Every section of this style guide is numbered for both easy reference and easy linking. You can link to any section directly by simply append a hash tag and the section number to the end of http://ue4.style
-For example, if you want to send someone to the first principle of this style guide you would append `#0.1`, resulting in http://ue4.style#0.1.
+本文的任何章节都有数字超链接地址，你可以直接通过本文的短地址 http://ue-cn.style 再加上章节编号，直接链接到本文的任意位置。
+例如，如果你想把本文的第一节发送给其他人，在地址后面加上`#0.1`即可，也就是使用地址 http://ue-cn.style#0.1
 
-## Forks And Translations
-
-If you have made a notable fork or translation that is not suitable for a pull request into this repo, please submit a pull request to add the fork or translation here.
-
-* [Korean Translation](https://github.com/ymkim50/ue4-style-guide/blob/master/README_Kor.md) by ymkim50
-* [Russian Translation](https://github.com/CosmoMyzrailGorynych/ue4-style-guide-rus/blob/master/README.md) by CosmoMyzrailGorynych
-* [Japanese Translation](https://github.com/akenatsu/ue4-style-guide/blob/master/README.jp.md) by akenatsu
-* [Chinese Translation](https://github.com/skylens-inc/ue4-style-guide/blob/master/README.md) by Beijing Skylens Tech.
-* [Brazilian Portuguese Translation](https://github.com/danlvr/ue5-style-guide/blob/main/README_PTBR.md) by danlvr.
-* [French Translation](https://github.com/Arnaud58/ue5-style-guide/blob/main/README.md) by Arnaud58
-
-## Table of contents
-- [Important Terminology](#important-terminology)
-  - [Levels/Maps](#terms-level-map)
-  - [Identifiers](#terms-identifiers)
-  - [Cases](#terms-cases)
-  - [Variables / Properties](#terms-var-prop)
-    - [Property](#terms-property)
-    - [Variable](#terms-variable)
-- [0. Principles](#0)
-  - [0.1 If your UE4 project already has a style guide, you should follow it](#0.1)
-  - [0.2 All structure, assets, and code in any Unreal Engine 4 project should look like a single person created it, no matter how many people contributed](#0.2)
-  - [0.3 Friends do not let friends have bad style](#0.3)
-  - [0.4 A team without a style guide is no team of mine](#0.4)
-  - [0.5 Don't Break The Law](#0.5)
-- [00. Globally Enforced Opinions](#00)
-  - [00.1 Forbidden Characters](#00.1)
-    - [Identifiers](#identifiers)
-- [1. Asset Naming Conventions](#anc)
-  - [1.1 Base Asset Name - `Prefix_BaseAssetName_Variant_Suffix`](#base-asset-name)
-    - [1.1 Examples](#1.1-examples)
-  - [1.2 Asset Name Modifiers](#asset-name-modifiers)
-    - [1.2.1 Most Common](#anc-common)
-    - [1.2.2 Animations](#anc-animations)
-  - [1.2.3 Artificial Intelligence](#anc-ai)
-  - [1.2.4 Blueprints](#anc-bp)
-  - [1.2.5 Materials](#anc-materials)
-  - [1.2.6 Textures](#anc-textures)
-    - [1.2.6.1 Texture Packing](#anc-textures-packing)
-  - [1.2.7 Miscellaneous](#anc-misc)
-  - [1.2.8 Paper 2D](#anc-paper2d)
-  - [1.2.9 Physics](#anc-physics)
-  - [1.2.10 Sounds](#anc-sounds)
-  - [1.2.11 User Interface](#anc-ui)
-  - [1.2.12 Effects](#anc-effects)
+## 目录
+- [重要术语](#important-terminology)
+  - [关卡/地图](#terms-level-map)
+  - [标识符](#terms-identifiers)
+  - [大小写](#terms-cases)
+  - [变量 / 属性](#terms-var-prop)
+    - [属性](#terms-property)
+    - [变量](#terms-variable)
+- [0. 原则](#0)
+  - [0.1 如果你的项目已经存在现有规范，那么请继续遵守规范](#0.1)
+  - [0.2 不管团队中有多少人，工程中所有的数据结构、资源、代码风格应该统一，如同是同一个人的作品](#0.2)
+  - [0.3 真正的好朋友不会让对方写烂代码](#0.3)
+  - [0.4 没有规范的团队不是真正的团队](#0.4)
+  - [0.5 请遵守法律条款](#0.5)
+- [00. 需要强制执行的全局规范](#00)
+  - [00.1 禁止使用的字符](#00.1)
+    - [标识符](#identifiers)
+- [1. 资源命名约定](#anc)
+  - [1.1 基本命名规则 - `Prefix_BaseAssetName_Variant_Suffix`](#base-asset-name)
+    - [1.1 范例](#1.1-examples)
+  - [1.2 资源命名的修饰符](#asset-name-modifiers)
+    - [1.2.1 通用类型(Most Common)](#anc-common)
+    - [1.2.2 动作(Animations)](#anc-animations)
+    - [1.2.3 人工智能(Artificial Intelligence)](#anc-ai)
+    - [1.2.4 蓝图(Blueprints)](#anc-bp)
+    - [1.2.5 材质(Materials)](#anc-materials)
+    - [1.2.6 纹理(Textures)](#anc-textures)
+      - [1.2.6.1 多重纹理(Texture Packing)](#anc-textures-packing)
+    - [1.2.7 杂项(Miscellaneous)](#anc-misc)
+    - [1.2.8 Paper 2D](#anc-paper2d)
+    - [1.2.9 物理(Physics)](#anc-physics)
+    - [1.2.10 声音(Sounds)](#anc-sounds)
+    - [1.2.11 界面(User Interface)](#anc-ui)
+    - [1.2.12 特效(Effects)](#anc-effects)
 - [2. Content Directory Structure](#structure)
   - [2e1 Example Project Content Structure](#2e1)
   - [2.1 Folder Names](#structure-folder-names)
