@@ -87,7 +87,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
         - [3.2.1.2e 范例](#3.2.1.2e)
       - [3.2.1.3 布尔变量 `b` 前缀](#bp-var-bool-prefix)
       - [3.2.1.4 布尔类型变量命名规则](#bp-var-bool-names)
-        - [3.2.1.4.1 需要包含独立信息](#3.2.1.4.1)
+        - [3.2.1.4.1 孤立存在的状态信息](#3.2.1.4.1)
         - [3.2.1.4.2 避免表达复杂状态](#3.2.1.4.2)
       - [3.2.1.5 考虑上下文](#bp-vars-naming-context)
         - [3.2.1.5e 范例](#3.2.1.5e)
@@ -527,7 +527,7 @@ Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法�
 | Particle System         | PS_        |            |                                  |
 | Material (Post Process) | PP_        |            |                                  |
 
-**[⬆ 返回](#table-of-contents)**
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="2"></a>
 <a name="structure"></a>
@@ -593,7 +593,7 @@ Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法�
             |-- Rifles
 </pre>
 
-使用这种目录结构的原因列在下面
+在以下章节中，将会解释使用这种目录结构的原因
 
 <a name="2.1"></a>
 <a name="structure-folder-names"><a>
@@ -616,7 +616,7 @@ Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法�
 <a name="2.1.3"></a>
 #### 2.1.3 不要使用奇怪的符号
 
-如果你游戏中的角色的名字叫做'Zoë'，那么文件夹要其名为`Zoe`。在目录名中使用这样的Unicode字符的后果甚至比使用空格还严重，因为某些引擎工具在设计时压根就没有考虑这种情况。
+如果你游戏中的角色的名字叫做`Zoë`，那么文件夹要其名为`Zoe`。在目录名中使用这样的Unicode字符的后果甚至比使用空格还严重，因为某些引擎工具在设计时压根就没有考虑这种情况。
 
 顺便说一句，如果你的工程碰到了类似于[这篇帖子](https://answers.unrealengine.com/questions/101207/undefined.html) 中的情况，并且当前使用的系统用户名中包含有Unicode字符（比如 `Zoë`），那么只要把工程从`My Documents`目录移到类似于`D:\Project`这种简单的目录里就可以解决了。
 
@@ -714,7 +714,7 @@ Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法�
 ### 2.6 不要创建名为`Assets` 或者 `AssetTypes`的目录
 
 <a name="2.6.1"></a>
-#### 2.6.1 创建一个名为`Assets`的目录是多余的
+#### 2.6.1 创建名为`Assets`的目录是多余的
 
 因为本来所有目录就是用来保存资产(`Assets`)的
 
@@ -771,50 +771,51 @@ Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法�
 1. 确保空文件已经被删除
 1. 提交修改到版本仓库中
 
-**[⬆ 返回](#table-of-contents)**
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="3"></a>
 <a name="bp"></a>
-## 3. Blueprints
+## 3. 蓝图(Blueprint)
 
-This section will focus on Blueprint classes and their internals. When possible, style rules conform to [Epic's Coding Standard](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard).
+这一章会专注于蓝图和蓝图的实现。本规则会尽可能和[Epic官方提供的标准](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard) 一致。
 
-Remember: Blueprinting badly bears blunders, beware! (Phrase by [KorkuVeren](http://github.com/KorkuVeren))
+要牢记: Blueprinting badly bears blunders, beware! (出自[KorkuVeren](http://github.com/KorkuVeren))
+(译者: 视蓝图如同看到熊出没，一定要当心！)
 
 <a name="3.1"></a>
 <a name="bp-compiling"></a>
-### 3.1 Compiling
+### 3.1 编译(Compiling)
 
-All blueprints should compile with zero warnings and zero errors. You should fix blueprint warnings and errors immediately as they can quickly cascade into very scary unexpected behavior.
+需要保证所有蓝图在编译时0警告和0错误。你应该尽快修复所有警告和异常，以免它们造成可怕的麻烦。
 
-Do *not* submit broken blueprints to source control. If you must store them on source control, shelve them instead.
+*绝对不要*提交那些断开的蓝图，如果你需要通过源码服务器保存，那么必须暂时搁置它们
 
-Broken blueprints can cause problems that manifest in other ways, such as broken references, unexpected behavior, cooking failures, and frequent unneeded recompilation. A broken blueprint has the power to break your entire game.
+断开的蓝图有巨大的破坏力，而且会影响到蓝图之外，比如造成引用失效，未定义的行为，烘培失败，或者频繁的重新编译。一个断开的蓝图可能会毁掉整个项目。
 
 <a name="3.2"></a>
 <a name="bp-vars"></a>
-### 3.2 Variables
+### 3.2 变量(Variables)
 
-The words `variable` and `property` may be used interchangeably.
+变量(`variable`)和属性(`property`)这两个词经常是可以互换的。
 
 <a name="3.2.1"></a>
 <a name="bp-var-naming"></a>
-#### 3.2.1 Naming
+#### 3.2.1 命名(Naming)
 
 <a name="3.2.1.1"></a>
 <a name="bp-var-naming-nouns"></a>
-##### 3.2.1.1 Nouns
+##### 3.2.1.1 使用名词
 
-All non-boolean variable names must be clear, unambiguous, and descriptive nouns.
+所有非布尔类型的变量必须使用简短、清晰并且意义明确的**名词**作为变量名。
 
 <a name="3.2.1.2"></a>
 <a name="bp-var-naming-case"></a>
-##### 3.2.1.2 PascalCase
+##### 3.2.1.2 大驼峰规范(PascalCase)
 
-All non-boolean variables should be in the form of [PascalCase](#terms-cases).
+所有非布尔类型的变量的大小写需要遵守[大驼峰规范(PascalCase)](#terms-cases)规范。
 
 <a name="3.2.1.2e"></a>
-###### 3.2.1.2e Examples
+###### 3.2.1.2e 范例
 
 * `Score`
 * `Kills`
@@ -825,48 +826,48 @@ All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 
 <a name="3.2.1.3"></a>
 <a name="bp-var-bool-prefix"></a>
-##### 3.2.1.3 Boolean `b` Prefix
+##### 3.2.1.3 布尔变量 `b` 前缀
 
-All booleans should be named in PascalCase but prefixed with a lowercase `b`.
+所有布尔类型变量需要遵守[大驼峰规范](#terms-cases)规范，同时前面需要增加小写的`b`做前缀。
 
-Example: Use `bDead` and `bEvil`, **not** `Dead` and `Evil`.
+例如:  用 `bDead` 和 `bEvil`, **不要** 使用`Dead` 和 `Evil`.
 
-UE4 Blueprint editors know not to include the `b` in user-friendly displays of the variable.
+UE的蓝图编辑器在显示变量名称时，会自动把前缀`b`去掉
 
 <a name="3.2.1.4"></a>
 <a name="bp-var-bool-names"></a>
-##### 3.2.1.4 Boolean Names
+##### 3.2.1.4 布尔类型变量命名规则
 
 <a name="3.2.1.4.1"></a>
-###### 3.2.1.4.1 General And Independent State Information
+###### 3.2.1.4.1 孤立存在的状态信息
 
-All booleans should be named as descriptive adjectives when possible if representing general information. Do not include words that phrase the variable as a question, such as `Is`. This is reserved for functions.
+布尔类型变量如果用来表示一般的孤立存在状态，名字应该使用描述性的单词，且不要包含具有提问含义的词汇，比如`Is`，这个词是保留单词。
 
-Example: Use `bDead` and `bHostile` **not** `bIsDead` and `bIsHostile`.
+例如：使用`bDead` and `bHostile`，**不要**使用`bIsDead` and `bIsHostile`。
 
-Try to not use verbs such as `bRunning`. Verbs tend to lead to complex states.
+也不要使用类似于`bRunning`这样的动词，动词会让布尔变量的含义变得复杂。
 
 <a name="3.2.1.4.2"></a>
-###### 3.2.1.4.2 Complex States
+###### 3.2.1.4.2 避免表达复杂状态
 
-Do not to use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
+不要使用布尔变量保存复杂的，或者需要依赖其他属性的状态信息，这会让状态变得复杂和难以理解，如果需要尽量使用枚举来代替。
 
-Example: When defining a weapon, do **not** use `bReloading` and `bEquipping` if a weapon can't be both reloading and equipping. Define an enumeration named `EWeaponState` and use a variable with this type named `WeaponState` instead. This makes it far easier to add new states to weapons.
+例如：当定义一个武器时，**不要**使用`bReloading` 和 `bEquipping`这样的变量，因为一把武器不可能即在reloading状态又在equipping状态，所以应该使用定义一个叫做`EWeaponState`的枚举，然后用一个枚举变量`WeaponState`来代替，这也使得以后增加新的状态更加容易。
 
-Example: Do **not** use `bRunning` if you also need `bWalking` or `bSprinting`. This should be defined as an enumeration with clearly defined state names.
+例如：**不要**使用`bRunning`这样的变量，因为你以后有可能还会增加`bWalking` 或者 `bSprinting`，这也应该使用一个枚举来非常清晰的定义状态。
 
 <a name="3.2.1.5"></a>
 <a name="bp-vars-naming-context"></a>
-##### 3.2.1.5 Considered Context
+##### 3.2.1.5 考虑上下文
 
-All variable names must not be redundant with their context as all variable references in Blueprint will always have context.
+蓝图中的变量命名时需要考虑上下文环境，避免重复不必要的定义。
 
 <a name="3.2.1.5e"></a>
 ###### 3.2.1.5e Examples
 
-Consider a Blueprint called `BP_PlayerCharacter`.
+假设有一个蓝图名为 `BP_PlayerCharacter`.
 
-**Bad**
+**不好的命名**
 
 * `PlayerScore`
 * `PlayerKills`
@@ -875,9 +876,9 @@ Consider a Blueprint called `BP_PlayerCharacter`.
 * `CharacterSkills`
 * `ChosenCharacterSkin`
 
-All of these variables are named redundantly. It is implied that the variable is representative of the `BP_PlayerCharacter` it belongs to because it is `BP_PlayerCharacter` that is defining these variables.
+这些变量的命名都很臃肿。因为这些变量都是属于一个角色蓝图`BP_PlayerCharacter`的，没必要在变量中再重复这一点。
 
-**Good**
+**好的命名**
 
 * `Score`
 * `Kills`
@@ -888,94 +889,92 @@ All of these variables are named redundantly. It is implied that the variable is
 
 <a name="3.2.1.6"></a>
 <a name="bp-vars-naming-atomic"></a>
-##### 3.2.1.6 Do _Not_ Include Atomic Type Names
+##### 3.2.1.6 **不要**在变量中包含原生变量类型名
 
-Atomic or primitive variables are variables that represent data in their simplest form, such as booleans, integers, floats, and enumerations.
+所谓原生变量是指那些最简单的保存数据的变量类型，比如布尔类型、整数、浮点数以及枚举。
 
-Strings and vectors are considered atomic in terms of style when working with Blueprints, however they are technically not atomic.
+String和vectors在蓝图中也属于原生变量类型，即使技术上严格来讲它们其实不是。
 
-> While vectors consist of three floats, vectors are often able to be manipulated as a whole, same with rotators.
+> 由三个浮点数组成的vector经常被视为一个整体数据类型，比如旋转向量。
 
-> Do _not_ consider Text variables as atomic, they are secretly hiding localization functionality. The atomic type of a string of characters is `String`, not `Text`.
+> 文本类型变量(Text)不属于原生类型，因为它们内部还包含有国际化信息。原生类型的字符串变量类型是`String` , 而不是`Text`。
 
-Atomic variables should not have their type name in their name.
+原生类型的变量名中不应该包含变量类型名。
 
-Example: Use `Score`, `Kills`, and `Description` **not** `ScoreFloat`, `FloatKills`, `DescriptionString`.
+例如：使用`Score`, `Kills`, 以及 `Description`，**不要**使用`ScoreFloat`, `FloatKills`, `DescriptionString`。
 
-The only exception to this rule is when a variable represents 'a number of' something to be counted _and_ when using a name without a variable type is not easy to read.
+但也有例外情况，当变量的含义包含了"多少个"这样的信息，**并且**仅用一个名字无法清晰的表达出这个含义时。
 
-Example: A fence generator needs to generate X number of posts. Store X in `NumPosts` or `PostsCount` instead of `Posts` as `Posts` may potentially read as an Array of a variable type named `Post`.
+比如：游戏中一个围墙生成器，需要有一个变量保存在X轴上的生成数量，那么需要使用`NumPosts` 或者 `PostsCount`这样的变量，因为仅仅使用`Posts`可能被误解为某个保存Post的数组
 
 <a name="3.2.1.7"></a>
 <a name="bp-vars-naming-complex"></a>
-##### 3.2.1.7 Do Include Non-Atomic Type Names
+##### 3.2.1.7 非原生类型的变量，需要包含变量类型名
 
-Non-atomic or complex variables are variables that represent data as a collection of atomic variables. Structs, Classes, Interfaces, and primitives with hidden behavior such as `Text` and `Name` all qualify under this rule.
+非原生类型的变量是指那些通过数据结构保存一批原生类型的复杂变量类型，比如Structs、Classes、Interface，还有一些有类似行为的原生变量比如`Text` 和 `Name`也属于此列。
 
-> While an Array of an atomic variable type is a list of variables, Arrays do not change the 'atomicness' of a variable type.
+> 如果仅仅是原生变量组成的数组，那么这个数组仍然属于原生类型
 
-These variables should include their type name while still considering their context.
+这些变量的名字应该包含数据类型名，但同时要考虑不要重复上下文。
 
-If a class owns an instance of a complex variable, i.e. if a `BP_PlayerCharacter` owns a `BP_Hat`, it should be stored as the variable type as without any name modifications.
+如果一个类中包拥有一个复杂变量的实例，比如一个`BP_PlayerCharacter`中有另一个变量`BP_Hat`，那么这个变量的名字就不需要包含变量类型了。
 
-Example: Use `Hat`, `Flag`, and `Ability` **not** `MyHat`, `MyFlag`, and `PlayerAbility`.
+例如: 使用 `Hat`、`Flag`以及 `Ability`，**不要**使用`MyHat`、`MyFlag` 和 `PlayerAbility`
 
-If a class does not own the value a complex variable represents, you should use a noun along with the variable type.
+但是，如果一个类并不拥有这个属性，那么就需要在这个属性的名字中包含有类型的名字了
 
-Example: If a `BP_Turret` has the ability to target a `BP_PlayerCharacter`, it should store its target as `TargetPlayer` as when in the context of `BP_Turret` it should be clear that it is a reference to another complex variable type that it does not own.
-
+例如：一个蓝图类`BP_Turret`用来表示一个炮塔，它拥有瞄准`BP_PlayerCharacter`作为目标的能力，那么它内部会保存一个变量作为目标，名字应该是`TargetPlayer`，这个名字非常清楚的指明了这个变量的数据类型是`Player`。
 
 <a name="3.2.1.8"></a>
 <a name="bp-vars-naming-arrays"></a>
-##### 3.2.1.8 Arrays
+##### 3.2.1.8 数组
 
-Arrays follow the same naming rules as above, but should be named as a plural noun.
+数组的命名规则通常和所包含的元素的规则一样，但注意要用复数。
 
-Example: Use `Targets`, `Hats`, and `EnemyPlayers`, **not** `TargetList`, `HatArray`, `EnemyPlayerArray`.
-
+例如：用`Targets`、`Hats`以及 `EnemyPlayers`，**不要**使用`TargetList`、`HatArray` 或者 `EnemyPlayerArray`
 
 <a name="3.2.2"></a>
 <a name="bp-vars-editable"></a>
-#### 3.2.2 Editable Variables
+#### 3.2.2 可编辑变量
 
-All variables that are safe to change the value of in order to configure behavior of a blueprint should be marked as `Editable`.
+所有为了配置蓝图行为，可以安全的更改数据内容的变量都需要被标记为`Editable`
 
-Conversely, all variables that are not safe to change or should not be exposed to designers should _not_ be marked as editable, unless for engineering reasons the variable must be marked as `Expose On Spawn`.
+相反，那些不能更改或者不能暴露给设计师的变量，都**不能**标上可编辑标志，除非因为引擎的原因，这些变量需要被标为`Expose On Spawn`
 
-Do not arbitrarily mark variables as `Editable`.
+总之不要滥用`Editable`标记
 
 <a name="3.2.2.1"></a>
 <a name="bp-vars-editable-tooltips"></a>
 ##### 3.2.2.1 Tooltips
 
-All `Editable` variables, including those marked editable just so they can be marked as `Expose On Spawn`, should have a description in their `Tooltip` fields that explains how changing this value affects the behavior of the blueprint.
+对于所有标记为`Editable`的变量，包括被标记为 `Expose On Spawn`的变量，都应该在其`Tooltip`内填写关于如何改变变量值，以及会产生何种效果的说明。
 
 <a name="3.2.2.2"></a>
 <a name="bp-vars-editable-ranges"></a>
-##### 3.2.2.2 Slider And Value Ranges
+##### 3.2.2.2 滑动条(Slider)以及取值范围
 
-All `Editable` variables should make use of slider and value ranges if there is ever a value that a variable should _not_ be set to.
+对于可编辑的变量，如果不适合直接输入具体数值，那么应该通过一个滑动条(Slider)并且加上取值范围来让设计师输入。
 
-Example: A blueprint that generates fence posts might have an editable variable named `PostsCount` and a value of -1 would not make any sense. Use the range fields to mark 0 as a minimum.
+举例：一个产生围墙的蓝图，拥有一个`PostsCount`的变量，那么-1显然适合不合理的输入，所以需要设上取值范围注明0是最小值
 
-If an editable variable is used in a Construction Script, it should have a reasonable Slider Range defined so that someone can not accidentally assign it a large value that could crash the editor.
+如果在构造脚本中需要一个可编辑变量，那么一定要首先定义一个合理的取值范围，要不然可能会有人设上一个非常大的值造成编辑器崩溃。
 
-A Value Range only needs to be defined if the bounds of a value are known. While a Slider Range prevents accidental large number inputs, an undefined Value Range allows a user to specify a value outside the Slider Range that may be considered 'dangerous' but still valid.
+一个变量的取值范围只有当明确知道其范围时才需要定义，因为滑块的取值范围的确能够阻止用户输入危险数值，但用户仍然能够通过手动输入的方式输入一个超出滑块范围的值给变量，如果变量的取值范围未定义，那么这个值就会变得'很危险'而且仍然会生效。
 
 <a name="3.2.3"></a>
 <a name="bp-vars-categories"></a>
-#### 3.2.3 Categories
+#### 3.2.3 分类
 
-If a class has only a small number of variables, categories are not required.
+如果一个类的变量很少，那么没有必要使用分类
 
-If a class has a moderate amount of variables (5-10), all `Editable` variables should have a non-default category assigned. A common category is `Config`.
+如果一个类的变量规模达到中等(5-10)，那么所有`可编辑`的变量应该自己的分类，而不应该放在缺省分类中，通常叫做 `Config`
 
-If a class has a large amount of variables, all `Editable` variables should be categorized into sub-categories using the category `Config` as the base category. Non-editable variables should be categorized into descriptive categories describing their usage.
+如果类中的变量的数量非常大，那么所有可编辑的变量都应该放在`Config`分类的子分类下，所有不可编辑的变量应该根据它们的用途建立相关分类保存
 
-> You can define sub-categories by using the pipe character `|`, i.e. `Config | Animations`.
+> 可以通过在分类名中添加字符`|`，直接建立子分类，比如`Config | Animations`
 
-Example: A weapon class set of variables might be organized as:
-
+举例：一个武器的类中的变量分类目录大致如下：
+<pre>
     |-- Config
     |    |-- Animations
     |    |-- Effects
@@ -985,44 +984,45 @@ Example: A weapon class set of variables might be organized as:
     |-- Animations
     |-- State
     |-- Visuals
+</pre>
 
 <a name="3.2.4"></a>
 <a name="bp-vars-access"></a>
-#### 3.2.4 Variable Access Level
+#### 3.2.4 变量的访问权限
 
-In C++, variables have a concept of access level. Public means any code outside the class can access the variable. Protected means only the class and any child classes can access this variable internally. Private means only this class and no child classes can access this variable.
+在C++中，变量的访问类型由类成员的属性决定，Public类型的表示其他类都可以访问，Protetced类型的成员表示子类可以访问，Private类型变量表示只有类内部函数可以访问此变量。
 
-Blueprints do not have a defined concept of protected access currently.
+蓝图并没有类似的权限访问设计。
 
-Treat `Editable` variables as public variables. Treat non-editable variables as protected variables.
+可以视可编辑(`Editable`)类型的变量作为Public类型变量，视不可编辑的变量作为Protected类型变量。
 
 <a name="3.2.4.1"></a>
 <a name="bp-vars-access-private"></a>
-##### 3.2.4.1 Private Variables
+##### 3.2.4.1 私有变量
 
-Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
+尽量不要把变量声明为private类型，除非一开始就打算这个变量永远只能被类内部访问，并且类本身也没打算被继承。尽量用`protected`，只有当你有非常清楚的理由要去限制子类的能力时，再使用private类型。
 
 <a name="3.2.5"></a>
 <a name="bp-vars-advanced"></a>
-#### 3.2.5 Advanced Display
+#### 3.2.5 高级显示
 
-If a variable should be editable but often untouched, mark it as `Advanced Display`. This makes the variable hidden unless the advanced display arrow is clicked.
+如果一个变量可以被编辑，但通常不会有人碰到，那么就把它标记为高级显示`Advanced Display`。这些变量在蓝图中会缺省隐藏，除非点击节点上的高级显示箭头。
 
-To find the `Advanced Display` option, it is listed as an advanced displayed variable in the variable details list.
+有意思的是，`Advanced Display`这个选项本身，在编辑器的变量属性中也是一个高级显示类型的。
 
 <a name="3.2.6"></a>
 <a name="bp-vars-transient"></a>
-#### 3.2.6 Transient Variables
+#### 3.2.6 Transient变量
 
-Transient variables are variables that do not need to have their value saved and loaded and have an initial value of zero or null. This is useful for references to other objects and actors who's value isn't known until run-time. This prevents the editor from ever saving a reference to it, and speeds up saving and loading of the blueprint class.
+Transient类型的变量是指那些不需要被序列化（保存或者加载），并且初始值为0或者null的变量。一般在引用其他对象时会使用，它们的值只有在运行时才确定。这样做能防止编辑器在磁盘上多存储一份多余的数据，以加快蓝图的存盘和加载速度。
 
-Because of this, all transient variables should always be initialized as zero or null. To do otherwise would result in hard to debug errors.
+因此，所有Transient类型变量都应该被初始化成0或者null。如果是其他值会增加调试bug的难度。
 
 <a name="3.2.7"></a>
 <a name="bp-vars-config"></a>
-#### 3.2.8 Config Variables
+#### 3.2.8 Config变量
 
-Do not use the `Config Variable` flag. This makes it harder for designers to control blueprint behavior. Config variables should only be used in C++ for rarely changed variables. Think of them as `Advanced Advanced Display` variables.
+不要使用`Config Variable`标记，这会让设计师在控制蓝图行为上更加困难。这个标记一般用在C++中，用来标记那些极少被改变的变量，你可以认为它们是那些被标上`Advanced Advanced Display`的变量
 
 <a name="3.3"></a>
 <a name="bp-functions"></a>
