@@ -34,7 +34,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
   - [0.1 如果你的项目已经存在现有规范，那么请继续遵守规范](#0.1)
   - [0.2 不管团队中有多少人，工程中所有的数据结构、资源、代码风格应该统一，如同是同一个人的作品](#0.2)
   - [0.3 真正的好朋友不会让对方写烂代码](#0.3)
-  - [0.4 没有规范的团队不是真正的团队](#0.4)
+  - [0.4 谨慎加入没有规范的团队](#0.4)
   - [0.5 请遵守法律条款](#0.5)
 - [00. 需要强制执行的全局规范](#00)
   - [00.1 禁止使用的字符](#00.1)
@@ -42,7 +42,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
 - [1. 资源命名约定](#anc)
   - [1.1 基本命名规则 - `Prefix_BaseAssetName_Variant_Suffix`](#base-asset-name)
     - [1.1 范例](#1.1-examples)
-  - [1.2 资源命名的修饰符](#asset-name-modifiers)
+  - [1.2 资源类型表](#asset-name-modifiers)
     - [1.2.1 通用类型(Most Common)](#anc-common)
     - [1.2.2 动作(Animations)](#anc-animations)
     - [1.2.3 人工智能(Artificial Intelligence)](#anc-ai)
@@ -56,243 +56,244 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
     - [1.2.10 声音(Sounds)](#anc-sounds)
     - [1.2.11 界面(User Interface)](#anc-ui)
     - [1.2.12 特效(Effects)](#anc-effects)
-- [2. Content Directory Structure](#structure)
-  - [2e1 Example Project Content Structure](#2e1)
-  - [2.1 Folder Names](#structure-folder-names)
-    - [2.1.1 Always Use PascalCase](#2.1.1)
-    - [2.1.2 Never Use Spaces](#2.1.2)
-    - [2.1.3 Never Use Unicode Characters And Other Symbols](#2.1.3)
-  - [2.2 Use A Top Level Folder For Project Specific Assets](#structure-top-level)
-    - [2.2.1 No Global Assets](#2.2.1)
-    - [2.2.2 Reduce Migration Conflicts](#2.2.2)
-      - [2.2.2e1 Master Material Example](#2.2.2e1)
-    - [2.2.3 Samples, Templates, and Marketplace Content Are Risk-Free](#2.2.3)
-    - [2.2.4 DLC, Sub-Projects, and Patches Are Easily Maintained](#2.2.4)
-  - [2.3 Use Developers Folder For Local Testing](#structure-developers)
-  - [2.4 All Map<sup>*</sup> Files Belong In A Folder Called Maps](#structure-maps)
-  - [2.5 Use A `Core` Folder For Critical Blueprints And Other Assets](#structure-core)
-  - [2.6 Do Not Create Folders Called `Assets` or `AssetTypes`](#structure-assettypes)
-    - [2.6.1 Creating a folder named `Assets` is redundant](#2.6.1)
-    - [2.6.2 Creating a folder named `Meshes`, `Textures`, or `Materials` is redundant](#2.6.2)
-  - [2.7 Very Large Asset Sets Get Their Own Folder Layout](#structure-large-sets)
-  - [2.8 `MaterialLibrary`](#structure-material-library)
-  - [2.9 No Empty Folders](#structure-no-empty-folders)
-- [3. Blueprints](#bp)
-  - [3.1 Compiling](#bp-compiling)
-  - [3.2 Variables](#bp-vars)
-    - [3.2.1 Naming](#bp-var-naming)
-      - [3.2.1.1 Nouns](#bp-var-naming-nouns)
+- [2. Content的目录结构](#structure)
+  - [2e1 目录结构示例](#2e1)
+  - [2.1 文件夹命名](#structure-folder-names)
+    - [2.1.1 使用PascalCase大小写规范](#2.1.1)
+    - [2.1.2 不要使用空格](#2.1.2)
+    - [2.1.3 不要使用奇怪的符号 ](#2.1.3)
+  - [2.2 使用一个顶级目录来保存所有工程资源 ](#structure-top-level)
+    - [2.2.1 避免全局资源](#2.2.1)
+    - [2.2.2 减少资源迁移时的冲突](#2.2.2)
+      - [2.2.2e1 举例：基础材质的麻烦](#2.2.2e1)
+    - [2.2.3 范例，模板以及商场中的资源都是安全没有风险的](#2.2.3)
+    - [2.2.4 使得DLC、子工程、以及补丁包容易维护](#2.2.4)
+  - [2.3 使用开发者目录做本地测试](#structure-developers)
+  - [2.4 所有场景<sup>*</sup> 文件应该保存在一个名为'Maps'的目录中 ](#structure-maps)
+  - [2.5 使用`Core`目录存储系统蓝图资源以及其他系统资源 ](#structure-core)
+  - [2.6 不要创建名为`Assets` 或者 `AssetTypes`的目录](#structure-assettypes)
+    - [2.6.1 创建一个名为`Assets`的目录是多余的](#2.6.1)
+    - [2.6.2 创建名为`Meshes`、 `Textures`或者`Materials`的目录是多余的](#2.6.2)
+  - [2.7 超大资源要有自己的目录结构 ](#structure-large-sets)
+  - [2.8 材质库`MaterialLibrary`](#structure-material-library)
+  - [2.9 避免空目录存在](#structure-no-empty-folders)
+- [3. 蓝图(Blueprint)](#bp)
+  - [3.1 编译(Compiling)](#bp-compiling)
+  - [3.2 变量(Variables)](#bp-vars)
+    - [3.2.1 命名(Naming)](#bp-var-naming)
+      - [3.2.1.1 使用名词](#bp-var-naming-nouns)
       - [3.2.1.2 PascalCase](#bp-var-naming-case)
-        - [3.2.1.2e Examples](#3.2.1.2e)
-      - [3.2.1.3 Boolean `b` Prefix](#bp-var-bool-prefix)
-      - [3.2.1.4 Boolean Names](#bp-var-bool-names)
-        - [3.2.1.4.1 General And Independent State Information](#3.2.1.4.1)
-        - [3.2.1.4.2 Complex States](#3.2.1.4.2)
-      - [3.2.1.5 Considered Context](#bp-vars-naming-context)
-        - [3.2.1.5e Examples](#3.2.1.5e)
-      - [3.2.1.6 Do _Not_ Include Atomic Type Names](#bp-vars-naming-atomic)
-      - [3.2.1.7 Do Include Non-Atomic Type Names](#bp-vars-naming-complex)
-      - [3.2.1.8 Arrays](#bp-vars-naming-arrays)
-    - [3.2.2 Editable Variables](#bp-vars-editable)
+        - [3.2.1.2e 范例](#3.2.1.2e)
+      - [3.2.1.3 布尔变量 `b` 前缀](#bp-var-bool-prefix)
+      - [3.2.1.4 布尔类型变量命名规则](#bp-var-bool-names)
+        - [3.2.1.4.1 需要包含独立信息](#3.2.1.4.1)
+        - [3.2.1.4.2 避免表达复杂状态](#3.2.1.4.2)
+      - [3.2.1.5 考虑上下文](#bp-vars-naming-context)
+        - [3.2.1.5e 范例](#3.2.1.5e)
+      - [3.2.1.6 __不要__ 在变量中包含变量类型名称](#bp-vars-naming-atomic)
+      - [3.2.1.7 非原生类型的变量，需要包含变量类型名](#bp-vars-naming-complex)
+      - [3.2.1.8 数组](#bp-vars-naming-arrays)
+    - [3.2.2 可编辑变量](#bp-vars-editable)
       - [3.2.2.1 Tooltips](#bp-vars-editable-tooltips)
-      - [3.2.2.2 Slider And Value Ranges](#bp-vars-editable-ranges)
-    - [3.2.3 Categories](#bp-vars-categories)
-    - [3.2.4 Variable Access Level](#bp-vars-access)
-      - [3.2.4.1 Private Variables](#bp-vars-access-private)
-    - [3.2.5 Advanced Display](#bp-vars-advanced)
-    - [3.2.6 Transient Variables](#bp-vars-transient)
-    - [3.2.8 Config Variables](#bp-vars-config)
-  - [3.3 Functions, Events, and Event Dispatchers](#bp-functions)
-    - [3.3.1 Function Naming](#bp-funcs-naming)
-    - [3.3.1.1 All Functions Should Be Verbs](#bp-funcs-naming-verbs)
-    - [3.3.1.2 Property RepNotify Functions Always `OnRep_Variable`](#bp-funcs-naming-onrep)
-    - [3.3.1.3 Info Functions Returning Bool Should Ask Questions](#bp-funcs-naming-bool)
-    - [3.3.1.4 Event Handlers and Dispatchers Should Start With `On`](#bp-funcs-naming-eventhandlers)
-    - [3.3.1.5 Remote Procedure Calls Should Be Prefixed With Target](#bp-funcs-naming-rpcs)
-    - [3.3.2 All Functions Must Have Return Nodes](#bp-funcs-return)
-    - [3.3.3 No Function Should Have More Than 50 Nodes](#bp-graphs-funcs-node-limit)
-    - [3.3.4 All Public Functions Should Have A Description](#bp-graphs-funcs-description)
-    - [3.3.5 All Custom Static Plugin `BlueprintCallable` Functions Must Be Categorized By Plugin Name](#bp-graphs-funcs-plugin-category)
-  - [3.4 Blueprint Graphs](#bp-graphs)
-    - [3.4.1 No Spaghetti](#bp-graphs-spaghetti)
-    - [3.4.2 Align Wires Not Nodes](#bp-graphs-align-wires)
-    - [3.4.3 White Exec Lines Are Top Priority](#bp-graphs-exec-first-class)
-    - [3.4.4 Graphs Should Be Reasonably Commented](#bp-graphs-block-comments)
-    - [3.4.5 Graphs Should Handle Casting Errors Where Appropriate](#bp-graphs-cast-error-handling)
-    - [3.4.6 Graphs Should Not Have Any Dangling / Loose / Dead Nodes](#bp-graphs-dangling-nodes)
-- [4. Static Meshes](#4)
-  - [4.1 Static Mesh UVs](#s-uvs)
-    - [4.1.1 All Meshes Must Have UVs](#s-uvs-no-missing)
-    - [4.1.2 All Meshes Must Not Have Overlapping UVs for Lightmaps](#s-uvs-no-overlapping)
-  - [4.2 LODs Should Be Set Up Correctly](#s-lods)
-  - [4.3 Modular Socketless Assets Should Snap To The Grid Cleanly](#s-modular-snapping)
-  - [4.4 All Meshes Must Have Collision](#s-collision)
-  - [4.5 All Meshes Should Be Scaled Correctly](#s-scaled)
+      - [3.2.2.2 滑动条(Slider)以及取值范围](#bp-vars-editable-ranges)
+    - [3.2.3 分类](#bp-vars-categories)
+    - [3.2.4 变量的访问权限](#bp-vars-access)
+      - [3.2.4.1 私有变量](#bp-vars-access-private)
+    - [3.2.5 高级显示](#bp-vars-advanced)
+    - [3.2.6 Transient变量](#bp-vars-transient)
+    - [3.2.8 Config变量](#bp-vars-config)
+  - [3.3 函数、事件以及事件派发器](#bp-functions)
+    - [3.3.1 函数命名](#bp-funcs-naming)
+      - [3.3.1.1 所有函数的命名都应该是动词](#bp-funcs-naming-verbs)
+      - [3.3.1.2 属性的状态变化响应函数应该命名为`OnRep_Variable`](#bp-funcs-naming-onrep)
+      - [3.3.1.3 返回布尔变量的信息查询函数应该是问询函数](#bp-funcs-naming-bool)
+      - [3.3.1.4 E事件的响应函数和派发函数都应该以`On`开头](#bp-funcs-naming-eventhandlers)
+      - [3.3.1.5 远程调用函数应该用目标作为前缀](#bp-funcs-naming-rpcs)
+    - [3.3.2 所有函数都应该有返回节点](#bp-funcs-return)
+    - [3.3.3 蓝图函数中节点数不应该超过50个](#bp-graphs-funcs-node-limit)
+    - [3.3.4 所有Public函数都应该有功能描述](#bp-graphs-funcs-description)
+    - [3.3.5 插件中自定义的可以在蓝图中调用的函数都应该放在以插件名命名的类别中](#bp-graphs-funcs-plugin-category)
+  - [3.4 蓝图节点](#bp-graphs)
+    - [3.4.1 不要画‘意面’](#bp-graphs-spaghetti)
+    - [3.4.2 保持连线对齐，而不是节点](#bp-graphs-align-wires)
+    - [3.4.3 白色的可执行线优先级最高](#bp-graphs-exec-first-class)
+    - [3.4.4 节点应该有合理的注释](#bp-graphs-block-comments)
+    - [3.4.5 蓝图中需要在适当的地方处理类型转换错误](#bp-graphs-cast-error-handling)
+    - [3.4.6 避免出现空悬节点和死节点](#bp-graphs-dangling-nodes)
+- [4. 静态模型](#4)
+  - [4.1 静态模型的UVs](#s-uvs)
+    - [4.1.1 静态模型需要包含UV](#s-uvs-no-missing)
+    - [4.1.2 静态模型的UV须要避免互相覆盖](#s-uvs-no-overlapping)
+  - [4.2 正确的设置LOD](#s-lods)
+  - [4.3 不带插槽的模块化的模型需要严格对齐网格](#s-modular-snapping)
+  - [4.4 所有模型需要有碰撞体](#s-collision)
+  - [4.5 所有模型资源需要正确的缩放系数](#s-scaled)
 - [5. Niagara](#Niagara)
-  - [5.1 No Spaces, Ever](#ng-rules)
-- [6. Levels / Maps](#levels)
-  - [6.1 No Errors Or Warnings](#levels-no-errors-or-warnings)
-  - [6.2 Lighting Should Be Built](#levels-lighting-should-be-built)
-  - [6.3 No Player Visible Z Fighting](#levels-no-visible-z-fighting)
-  - [6.4 Marketplace Specific Rules](#levels-mp-rules)
-    - [6.4.1 Overview Level](#levels-mp-rules-overview)
-    - [6.4.2 Demo Level](#levels-mp-rules-demo)
-- [7. Textures](#textures)
-  - [7.1 Dimensions Are Powers of 2](#textures-dimensions)
-  - [7.2 Texture Density Should Be Uniform](#textures-density)
-  - [7.3 Textures Should Be No Bigger than 8192](#textures-max-size)
-  - [7.4 Textures Should Be Grouped Correctly](#textures-group)
+  - [5.1 永远不要有空格](#ng-rules)
+- [6. 关卡/ 地图](#levels)
+  - [6.1 解决掉错误和警告](#levels-no-errors-or-warnings)
+  - [6.2 记得构建光照](#levels-lighting-should-be-built)
+  - [6.3 不要让玩家看到Z Fighting](#levels-no-visible-z-fighting)
+  - [6.4 商城需要遵守的规范](#levels-mp-rules)
+    - [6.4.1 预览场景](#levels-mp-rules-overview)
+    - [6.4.2 演示场景](#levels-mp-rules-demo)
+- [7. 纹理](#textures)
+  - [7.1 纹理大小需要是2的幂](#textures-dimensions)
+  - [7.2 纹理图案密度应该保持一致](#textures-density)
+  - [7.3 纹理大小不要超过8192](#textures-max-size)
+  - [7.4 正确对纹理进行分组](#textures-group)
 
-## Important Terminology
+## 重要术语
 
 <a name="terms-level-map"></a>
-##### Levels/Maps
+##### 关卡/地图
 
-The word 'map' generally refers to what the average person calls a 'level' and may be used interchangeably. See this term's history [here](https://en.wikipedia.org/wiki/Level_(video_gaming)).
+“map”(地图)这个词通常也会被称为“level”(关卡)，两者的含义是等同的，在[这里](https://en.wikipedia.org/wiki/Level_(video_gaming)) 可以查看这个词的历史
 
 <a name="terms-identifiers"></a>
-##### Identifiers
-An `Identifier` is anything that resembles or serves as a "name". For example, the name of an asset, or the name of a material later, or a blueprint property, a variable, or a folder name, or for a data table row name, etc...
+##### 标识符(Identifier)
+
+“标识符”(`Identifier`)是指所有类似于“名称”或起到“名称”作用的东西。 例如，资源的名称，或材质的名称，蓝图属性、变量名或文件夹名，或数据表行名称等......
 
 <a name="terms-cases"></a>
-##### Cases
+##### 大小写(Case)
 
-There are a few different ways you can `CaseWordsWhenNaming`. Here are some common casing types:
+对于大小写的规范有数种，以下是几种常见的几种
 
-> ###### PascalCase
+> ###### 大驼峰式(PascalCase)
 >
-> Capitalize every word and remove all spaces, e.g. `DesertEagle`, `StyleGuide`, `ASeriesOfWords`.
+> 每个单词的首字母都是大写，单词之间没有其他字符，例如 ：`DesertEagle`, `StyleGuide`, `ASeriesOfWords`.
 >
-> ###### camelCase
+> ###### 小驼峰式(camelCase)
 >
-> The first letter is always lowercase but every following word starts with uppercase, e.g. `desertEagle`, `styleGuide`, `aSeriesOfWords`.
+> 第一个单词的首字母小写，后面的单词的首字母大写，例如：`desertEagle`, `styleGuide`, `aSeriesOfWords`.
 >
-> ###### Snake_case
+> ###### 蛇式(Snake_case)
 >
-> Words can arbitrarily start upper or lowercase but words are separated by an underscore, e.g. `desert_Eagle`, `Style_Guide`, `a_Series_of_Words`.
+> 单词之间用下划线链接，单词的首字母可以大写也可以小写，例如：`desert_Eagle`, `Style_Guide`, `a_Series_of_Words`.
 
 <a name="terms-var-prop"></a>
-##### Variables / Properties
+##### 变量/属性(Variables / Properties)
 
-The words 'variable' and 'property' in most contexts are interchangable. If they are both used together in the same context however:
+'变量'和'属性'两个词在很多情况下是可以互相通用的。但如果他们同时出现在一个环境时，含义有一些不同：
 
 <a name="terms-property"></a>
-###### Property
-Usually refers to a variable defined in a class. For example, if `BP_Barrel` had a variable `bExploded`, `bExploded` may be referred to as a property of `BP_Barrel`.
+###### 属性(Property)
+'属性'通常定义在一个类的内部。例如，如果一个类`BP_Barrel`有一个内部成员`bExploded`，那么`bExploded`可以是做是`BP_Barrel`的一个属性
 
-When in the context of a class, it is often used to imply accessing previously defined data.
+当'属性'用在类的内部时，通常用来获取已经定义好的数据
 
 <a name="terms-variable"></a>
-###### Variable
-Usually refers to a variable defined as a function argument or a local variable inside a function.
+###### 变量(Variable)
+'变量'通常用在给函数传递参数，或者用在函数内的局部变量
 
-When in the context of a class, it is often used to convey discussion about its definition and what it will hold.
+当'变量'用在类的内部时，通常是用来定义什么或者用来保存某些数据的。
 
 <a name="0"></a>
-## 0. Principles
+## 0. 基本原则
 
-These principles have been adapted from [idomatic.js style guide](https://github.com/rwaldron/idiomatic.js/).
+以下改编自[idomatic.js代码规范](https://github.com/rwaldron/idiomatic.js/).
 
 <a name="0.1"></a>
-### 0.1 If your UE4 project already has a style guide, you should follow it
+### 0.1 如果你的项目已经存在现有规范，那么请继续遵守规范
 
-If you are working on a project or with a team that has a pre-existing style guide, it should be respected.  Any inconsistency between an existing style guide and this guide should defer to the existing.
+如果你工作的项目或你的团队已经有一套自己的规范，那么请尊重它。如果现有规范和本套规范发生冲突，请继续遵守原规范.
 
-Style guides should be living documents. You should propose style guide changes to an existing style guide as well as this guide if you feel the change benefits all usages.
+好的项目规范应该是不断进步的，当你发现有好的更改可以适合所有用户时，你应该建议去更改现有规范.
 
-> #### "Arguments over style are pointless. There should be a style guide, and you should follow it."
+> #### "对规范优劣的争论是没有意义的，有规范你就该去遵守。"
 > [_Rebecca Murphey_](https://rmurphey.com)
 
 <a name="0.2"></a>
-### 0.2 All structure, assets, and code in any Unreal Engine 4 project should look like a single person created it, no matter how many people contributed
+### 0.2 不管团队中有多少人，工程中所有的数据结构、资源、代码风格应该统一，如同是同一个人的作品
 
-Moving from one project to another should not cause a re-learning of style and structure. Conforming to a style guide removes unneeded guesswork and ambiguities.
+把资源从一个工程迁移到另一个工程不应该产生新的学习成本，所有资源应该符合项目规范，消除不必要的歧义和不确定性.
 
-It also allows for more productive creation and maintenance as one does not need to think about style. Simply follow the instructions. This style guide is written with best practices in mind, meaning that by following this style guide you will also minimize hard to track issues.
+遵守规范可以促进对于项目的生产和维护效率，因为团队成员不用去考虑规范问题，只需要去遵守。本套规范根据诸多优秀经验编写，遵守它意味着可以少走很多弯路.
 
 <a name="0.3"></a>
-### 0.3 Friends do not let friends have bad style
+### 0.3 真正的好朋友不会让对方写烂代码
 
-If you see someone working either against a style guide or no style guide, try to correct them.
+如果你发现同事不遵守规范，该去纠正他们.
 
-When working within a team or discussing within a community such as [Unreal Slackers](http://join.unrealslackers.org/), it is far easier to help and to ask for help when people are consistent. Nobody likes to help untangle someone's Blueprint spaghetti or deal with assets that have names they can't understand.
+当在团队中工作时，或者在社区提问时(例如[Unreal Slackers](http://join.unrealslackers.org/)) ，你会发现如果大家都遵守同一套规范会容易的多，没有人愿意在面对一堆乱糟糟的蓝图或者莫名其妙的代码时帮你解决问题.
 
-If you are helping someone whose work conforms to a different but consistent and sane style guide, you should be able to adapt to it. If they do not conform to any style guide, please direct them here.
+如果你要帮助的人使用另一套不同但很健全的规范，你应该去适应它，如果他们没有遵守任何规范，那么带他们来这儿.
 
 <a name="0.4"></a>
-### 0.4 A team without a style guide is no team of mine
+### 0.4 谨慎加入没有规范的团队
 
-When joining an Unreal Engine 4 team, one of your first questions should be "Do you have a style guide?". If the answer is no, you should be skeptical about their ability to work as a team.
+当你要加入一个新的UE团队时，你应该首先问他们有没有项目规范，如果没有的话，你该怀疑他们是否有能力像一个真正的团队那样工作.
 
 <a name="0.5"></a>
-### 0.5 Don't Break The Law
+### 0.5 请遵守法律条款
 
-Gamemakin LLC is not a lawyer, but please don't introduce illegal actions and behavior to a project, including but not limited to:
+Gamemakin 团队不是专业的律师，但请不要在项目中涉及违反法律的行为，包括但不限于：
 
-* Don't distribute content you don't have the rights to distribute
-* Don't infringe on someone else's copyrighted or trademark material
-* Don't steal content
-* Follow licensing restrictions on content, e.g. attribute when attributions are needed
+* 请勿传播您无权传播的内容.
+* 不得侵犯他人的版权或商标.
+* 请勿窃取工程资产.
+* 遵守资产的许可协议，例如当需要注明资产原创作者时，一定要注明.
 
 <a name="00"></a>
-## 00. Globally Enforced Opinions
+## 00. 需要强制执行的全局规范
 
 @TODO: Make this section 1 and update this document accordingly. Or maybe we don't?
 
 <a name="00.1"></a>
-### 00.1 Forbidden Characters
+### 00.1 禁止使用的字符
 
 <a name="identifiers-1"></a>
-#### Identifiers
+#### 标识符
 
-In any `Identifier` of any kind, **never** use the following unless absolutely forced to:
+对于标识符类型的命名，除非必要，**绝对不要**使用以下字符:
 
-* White space of any kind
-* Backward slashes `\`
-* Symbols i.e. `#!@$%`
-* Any Unicode character
+* 空格或者其他类似的空白字符
+* 反斜杠 `\`
+* 各种符号，例如 `#!@$%`
+* 任何Unicode字符集
 
-Any `Identifier` should strive to only have the following characters when possible (the RegEx `[A-Za-z0-9_]+`)
+标识符应该只包含以下字符（用正则表达式表示就是`[A-Za-z0-9_]+`)
 
 * ABCDEFGHIJKLMNOPQRSTUVWXYZ
 * abcdefghijklmnopqrstuvwxyz
 * 1234567890
-* _ (sparingly)
+* _ (下划线)
 
-The reasoning for this is this will ensure the greatest compatibility of all data across all platforms across all tools, and help prevent downtime due to potentially bad character handling for identifiers in code you don't control.
+这样做的原因是，尽可能确保跨平台和工具链的兼容性。并有也有助于防止那些不是你控制的程序处理你的工程资产时，因为这些程序中的字符处理错误而导致的意外故障。
 
 <a name="anc"></a>
 <a name="1"></a>
-## 1. Asset Naming Conventions
+## 1. 资源命名约定
 
-Naming conventions should be treated as law. A project that conforms to a naming convention is able to have its assets managed, searched, parsed, and maintained with incredible ease.
+对于资源的命名的规范应该像法律一样被遵守。一个项目如果有好的命名规范，那么在资源管理、查找、解析、维护时，都会有极大的便利性。
 
-Most things are prefixed with prefixes being generally an acronym of the asset type followed by an underscore.
+大多数资源的命名都应该有前缀，前缀一般是资源类型的缩写，然后使用下划线和资源名链接。
 
 <a name="base-asset-name"></a>
 <a name="1.1"></a>
-### 1.1 Base Asset Name - `Prefix_BaseAssetName_Variant_Suffix`
+### 1.1 基本命名规则 - `Prefix_BaseAssetName_Variant_Suffix`
 
-All assets should have a _Base Asset Name_. A Base Asset Name represents a logical grouping of related assets. Any asset that is part of this logical group should follow the standard of  `Prefix_BaseAssetName_Variant_Suffix`.
+所有资源都应该有一个 _BaseAssetName_ (基本资源名)。所谓基本资源名表明该资源在逻辑关系上属于那种资源，任何属于该逻辑组的资源都应该遵守同样的命名规范 `Prefix_BaseAssetName_Variant_Suffix`.
 
-Keeping the pattern `Prefix_BaseAssetName_Variant_Suffix` and in mind and using common sense is generally enough to warrant good asset names. Here are some detailed rules regarding each element.
+时刻谨记这个命名规范`Prefix_BaseAssetName_Variant_Suffix`，只要遵守它，大部分情况下都可以让命名规范。下面是详细的解释.
 
-`Prefix` and `Suffix` are to be determined by the asset type through the following [Asset Name Modifier](#asset-name-modifiers) tables.
+`Prefix`(前缀) 和 `Suffix`(后缀)由资源类型确定，请参照下面的[资源类型表](#asset-name-modifiers).
 
-`BaseAssetName` should be determined by a short and easily recognizable name related to the context of this group of assets. For example, if you had a character named Bob, all of Bob's assets would have the `BaseAssetName` of `Bob`.
+`BaseAssetName`(基本资源名)应该使用简短而便于识别的词汇，例如，如果你有一个角色名字叫做Bob，那么所有和Bob相关的资源的`BaseAssetName`都应该叫做`Bob`.
 
-For unique and specific variations of assets, `Variant` is either a short and easily recognizable name that represents logical grouping of assets that are a subset of an asset's base name. For example, if Bob had multiple skins these skins should still use `Bob` as the `BaseAssetName` but include a recognizable `Variant`. An 'Evil' skin would be referred to as `Bob_Evil` and a 'Retro' skin would be referred to as `Bob_Retro`.
+`Varient`(扩展名)用来保证资源的唯一性，同样，扩展名也应该是简短而容易理解的短词，以说明该资源在所属的资源逻辑组中的子集。例如，如果Bob有多套皮肤，那么这些皮肤资源都应该使用Bob作为基本资源名同时包含扩展名，例如'Evil'类型的皮肤资源，名字应该是`Bob_Evil`，而Retro类型的皮肤应该是用`Bob_Retro`.
 
-For unique but generic variations of assets, `Variant` is a two digit number starting at `01`. For example, if you have an environment artist generating nondescript rocks, they would be named `Rock_01`, `Rock_02`, `Rock_03`, etc. Except for rare exceptions, you should never require a three digit variant number. If you have more than 100 assets, you should consider organizing them with different base names or using multiple variant names.
+一般来说，如果仅仅是为了保证资源的唯一性，`Varient`可以使用从`01`开始的两位数字来表示。例如，如果你要制作一堆环境中使用的石头资源，那么他们应该命名为`Rock_01`, `Rock_02`, `Rock_03`等等。除非特殊需要，不要让数字超过三位数，如果你真的需要超过100个的资源序列，那么你应该考虑使用多个基础资源名.
 
-Depending on how your asset variants are made, you can chain together variant names. For example, if you are creating flooring assets for an Arch Viz project you should use the base name `Flooring` with chained variants such as `Flooring_Marble_01`, `Flooring_Maple_01`, `Flooring_Tile_Squares_01`.
+基于你所制作的资源扩展属性，你可以把多个扩展名串联起来。例如，如果你在制作一套地板所使用的资源，那么你的资源除了使用`Flooring`作为基本名，扩展名可以使用多个，例如`Flooring_Marble_01`, `Flooring_Maple_01`, `Flooring_Tile_Squares_01`.
 
 <a name="1.1-examples"></a>
-#### 1.1 Examples
+#### 1.1 范例
 
 ##### 1.1e1 Bob
 
-| Asset Type              | Asset Name                                                 |
+| 资源类型                | 资源名                                                     |
 | ----------------------- | ---------------------------------------------------------- |
 | Skeletal Mesh           | SK_Bob                                                     |
 | Material                | M_Bob                                                      |
@@ -302,7 +303,7 @@ Depending on how your asset variants are made, you can chain together variant na
 
 ##### 1.1e2 Rocks
 
-| Asset Type              | Asset Name                                                 |
+| 资源类型                | 资源名                                                     |
 | ----------------------- | ---------------------------------------------------------- |
 | Static Mesh (01)        | S_Rock_01                                                  |
 | Static Mesh (02)        | S_Rock_02                                                  |
@@ -312,35 +313,35 @@ Depending on how your asset variants are made, you can chain together variant na
 
 <a name="asset-name-modifiers"></a>
 <a name="1.2"></a>
-### 1.2 Asset Name Modifiers
+### 1.2 资源类型表
 
-When naming an asset, use these tables to determine the prefix and suffix to use with an asset's [Base Asset Name](#base-asset-name).
+当给一个资源命名的时候，请参照以下表格来决定在[基本命名](#base-asset-name)中所使用的前缀和后缀
 
 <a name="anc-common"></a>
 <a name="1.2.1"></a>
-#### 1.2.1 Most Common
+#### 1.2.1 通用类型(Most Common)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Level / Map             |            |            | [Should be in a folder called Maps.](#2.4) |
-| Level (Persistent)      |            | _P         |                                  |
-| Level (Audio)           |            | _Audio     |                                  |
-| Level (Lighting)        |            | _Lighting  |                                  |
-| Level (Geometry)        |            | _Geo       |                                  |
+| Level / Map             |            |            | [所有地图应该放在Maps目录下](#2.4) |
+| Level (持久关卡)        |            | _P         |                                  |
+| Level (音效关卡)        |            | _Audio     |                                  |
+| Level (光照)            |            | _Lighting  |                                  |
+| Level (几何体)          |            | _Geo       |                                  |
 | Level (Gameplay)        |            | _Gameplay  |                                  |
 | Blueprint               | BP_        |            |                                  |
 | Material                | M_         |            |                                  |
-| Static Mesh             | S_         |            | Many use SM_. We use S_.         |
+| Static Mesh             | S_         |            | 很多人使用 SM_. 但我们建议用 S_. |
 | Skeletal Mesh           | SK_        |            |                                  |
-| Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
+| Texture                 | T_         | _?         | 参照[纹理](#anc-textures)        |
 | Particle System         | PS_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-animations"></a>
 <a name="1.2.2"></a>
-#### 1.2.2 Animations
+#### 1.2.2 动作(Animations)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Aim Offset              | AO_        |            |                                  |
 | Aim Offset 1D           | AO_        |            |                                  |
@@ -359,9 +360,9 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 <a name="anc-ai"></a>
 <a name="1.2.3"></a>
-### 1.2.3 Artificial Intelligence
+### 1.2.3 人工智能(Artificial Intelligence)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | AI Controller           | AIC_       |            |                                  |
 | Behavior Tree           | BT_        |            |                                  |
@@ -374,25 +375,25 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 <a name="anc-bp"></a>
 <a name="1.2.4"></a>
-### 1.2.4 Blueprints
+### 1.2.4 蓝图(Blueprints)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
-| ----------------------- | ---------- | ---------- | -------------------------------- |
-| Blueprint               | BP_        |            |                                  |
-| Blueprint Component     | BP_        | Component  | I.e. BP_InventoryComponent       |
-| Blueprint Function Library | BPFL_   |            |                                  |
-| Blueprint Interface     | BPI_       |            |                                  |
-| Blueprint Macro Library | BPML_      |            | Do not use macro libraries if possible. |
-| Enumeration             | E          |            | No underscore.                   |
-| Structure               | F or S     |            | No underscore.                   |
-| Tutorial Blueprint      | TBP_       |            |                                  |
-| Widget Blueprint        | WBP_       |            |                                  |
+| 资源类型                      | 前缀       | 后缀       | 备注                             |
+| ----------------------------- | ---------- | ---------- | -------------------------------- |
+| Blueprint                     | BP_        |            |                                  |
+| Blueprint Component           | BP_        | Component  | 例如 BP_InventoryComponent       |
+| Blueprint Function Library    | BPFL_      |            |                                  |
+| Blueprint Interface           | BPI_       |            |                                  |
+| Blueprint Macro Library       | BPML_      |            | 可能的话尽量不要使用蓝图宏.      |
+| Enumeration                   | E          |            | 没有下划线.                      |
+| Structure                     | F or S     |            | 没有下划线.                      |
+| Tutorial Blueprint            | TBP_       |            |                                  |
+| Widget Blueprint              | WBP_       |            |                                  |
 
 <a name="anc-materials"></a>
 <a name="1.2.5"></a>
-### 1.2.5 Materials
+### 1.2.5 材质(Materials)
 
-| Asset Type                    | Prefix     | Suffix     | Notes                            |
+| 资源类型                      | 前缀       | 后缀       | 备注                             |
 | ----------------------------- | ---------- | ---------- | -------------------------------- |
 | Material                      | M_         |            |                                  |
 | Material (Post Process)       | PP_        |            |                                  |
@@ -405,48 +406,49 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 
 <a name="anc-textures"></a>
 <a name="1.2.6"></a>
-### 1.2.6 Textures
+### 1.2.6 纹理(Textures)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
-| ----------------------- | ---------- | ---------- | -------------------------------- |
-| Texture                 | T_         |            |                                  |
-| Texture (Diffuse/Albedo/Base Color)| T_ | _D      |                                  |
-| Texture (Normal)        | T_         | _N         |                                  |
-| Texture (Roughness)     | T_         | _R         |                                  |
-| Texture (Alpha/Opacity) | T_         | _A         |                                  |
-| Texture (Ambient Occlusion) | T_     | _O         |                                  |
-| Texture (Bump)          | T_         | _B         |                                  |
-| Texture (Emissive)      | T_         | _E         |                                  |
-| Texture (Mask)          | T_         | _M         |                                  |
-| Texture (Specular)      | T_         | _S         |                                  |
-| Texture (Metallic)      | T_         | _M         |                                  |
-| Texture (Packed)        | T_         | _*         | See notes below about [packing](#anc-textures-packing). |
-| Texture Cube            | TC_        |            |                                  |
-| Media Texture           | MT_        |            |                                  |
-| Render Target           | RT_        |            |                                  |
-| Cube Render Target      | RTC_       |            |                                  |
-| Texture Light Profile   | TLP        |            |                                  |
+| 资源类型                      | 前缀       | 后缀       | 备注                             |
+| ----------------------------- | ---------- | ---------- | -------------------------------- |
+| Texture                       | T_         |            |                                  |
+| Texture (Diffuse/Albedo/Base Color)| T_    | _D         |                                  |
+| Texture (Normal)              | T_         | _N         |                                  |
+| Texture (Roughness)           | T_         | _R         |                                  |
+| Texture (Alpha/Opacity)       | T_         | _A         |                                  |
+| Texture (Ambient Occlusion)   | T_         | _O         |                                  |
+| Texture (Bump)                | T_         | _B         |                                  |
+| Texture (Emissive)            | T_         | _E         |                                  |
+| Texture (Mask)                | T_         | _M         |                                  |
+| Texture (Specular)            | T_         | _S         |                                  |
+| Texture (Metallic)            | T_         | _M         |                                  |
+| Texture (Packed)              | T_         | _*         | 参照下面的[多重纹理](#anc-textures-packing). |
+| Texture Cube                  | TC_        |            |                                  |
+| Media Texture                 | MT_        |            |                                  |
+| Render Target                 | RT_        |            |                                  |
+| Cube Render Target            | RTC_       |            |                                  |
+| Texture Light Profile         | TLP        |            |                                  |
 
 <a name="anc-textures-packing"></a>
 <a name="1.2.6.1"></a>
-#### 1.2.6.1 Texture Packing
-It is common practice to pack multiple layers of texture data into one texture. An example of this is packing Emissive, Roughness, Ambient Occlusion together as the Red, Green, and Blue channels of a texture respectively. To determine the suffix, simply stack the given suffix letters from above together, e.g. `_ERO`.
+#### 1.2.6.1 多重纹理(Texture Packing)
+把多张纹理存于一个纹理文件中是很常见的方法，比如通常可以把自发光(Emissive), 粗糙度(Roughness), 环境光(Ambient Occlusion)以RGB通道的形式保存在纹理中，然后在文件的后缀中，注明这些信息，例如`_EGO`
 
-> It is generally acceptable to include an Alpha/Opacity layer in your Diffuse/Albedo's alpha channel and as this is common practice, adding `A` to the `_D` suffix is optional.
+> 一般来说，在纹理的Diffuse信息中附带Alpha/Opacity信息是很常见的，这时在`_D`后缀中可以加入`A`也可以不用加
 
-Packing 4 channels of data into a texture (RGBA) is not recommended except for an Alpha/Opacity mask in the Diffuse/Albedo's alpha channel as a texture with an alpha channel incurs more overhead than one without.
+不推荐同时把RGBA四个通道的信息保存在一张纹理中，这是由于带有Alpha通道的纹理要比不带的占用更多的资源，除非Alpha信息是以蒙版(Mask)的形式保存在Diffuse/Albedo通道中。
+
 
 <a name="anc-misc"></a>
 <a name="1.2.7"></a>
-### 1.2.7 Miscellaneous
+### 1.2.7 杂项(Miscellaneous)
 
-| Asset Type                 | Prefix     | Suffix     | Notes                            |
+| 资源类型                   | 前缀       | 后缀       | 备注                             |
 | -------------------------- | ---------- | ---------- | -------------------------------- |
 | Animated Vector Field      | VFA_       |            |                                  |
 | Camera Anim                | CA_        |            |                                  |
 | Color Curve                | Curve_     | _Color     |                                  |
 | Curve Table                | Curve_     | _Table     |                                  |
-| Data Asset                 | *_         |            | Prefix should be based on class. |
+| Data Asset                 | *_         |            | 前缀取决于何种类型资源.          |
 | Data Table                 | DT_        |            |                                  |
 | Float Curve                | Curve_     | _Float     |                                  |
 | Foliage Type               | FT_        |            |                                  |
@@ -457,7 +459,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Media Player               | MP_        |            |                                  |
 | File Media Source          | FMS_       |            |                                  |
 | Object Library             | OL_        |            |                                  |
-| Redirector                 |            |            | These should be fixed up ASAP.   |
+| Redirector                 |            |            | (暂时空缺，尽快解决).            |
 | Sprite Sheet               | SS_        |            |                                  |
 | Static Vector Field        | VF_        |            |                                  |
 | Substance Graph Instance   | SGI_       |            |                                  |
@@ -469,7 +471,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 <a name="1.2.8"></a>
 ### 1.2.8 Paper 2D
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Paper Flipbook          | PFB_       |            |                                  |
 | Sprite                  | SPR_       |            |                                  |
@@ -479,9 +481,9 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 <a name="anc-physics"></a>
 <a name="1.2.9"></a>
-### 1.2.9 Physics
+### 1.2.9 物理(Physics)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Physical Material       | PM_        |            |                                  |
 | Physics Asset           | PHYS_      |            |                                  |
@@ -489,26 +491,26 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 <a name="anc-sounds"></a>
 <a name="1.2.10"></a>
-### 1.2.10 Sounds
+### 1.2.10 声音(Sounds)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Dialogue Voice          | DV_        |            |                                  |
 | Dialogue Wave           | DW_        |            |                                  |
 | Media Sound Wave        | MSW_       |            |                                  |
 | Reverb Effect           | Reverb_    |            |                                  |
 | Sound Attenuation       | ATT_       |            |                                  |
-| Sound Class             |            |            | No prefix/suffix. Should be put in a folder called SoundClasses |
-| Sound Concurrency       |            | _SC        | Should be named after a SoundClass |
+| Sound Class             |            |            | 没有前缀和后缀，这些资源应该放在SoundClasses目录中 |
+| Sound Concurrency       |            | _SC        | 在SoundClass之后命名             |
 | Sound Cue               | A_         | _Cue       |                                  |
 | Sound Mix               | Mix_       |            |                                  |
 | Sound Wave              | A_         |            |                                  |
 
 <a name="anc-ui"></a>
 <a name="1.2.11"></a>
-### 1.2.11 User Interface
+### 1.2.11 界面(User Interface)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Font                    | Font_      |            |                                  |
 | Slate Brush             | Brush_     |            |                                  |
@@ -517,14 +519,14 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 <a name="anc-effects"></a>
 <a name="1.2.12"></a>
-### 1.2.12 Effects
+### 1.2.12 特效(Effects)
 
-| Asset Type              | Prefix     | Suffix     | Notes                            |
+| 资源类型                | 前缀       | 后缀       | 备注                             |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Particle System         | PS_        |            |                                  |
 | Material (Post Process) | PP_        |            |                                  |
 
-**[⬆ Back to Top](#table-of-contents)**
+**[⬆ 返回](#table-of-contents)**
 
 <a name="2"></a>
 <a name="structure"></a>
