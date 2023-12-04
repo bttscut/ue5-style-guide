@@ -122,7 +122,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
     - [3.4.5 蓝图中需要在适当的地方处理类型转换错误](#bp-graphs-cast-error-handling)
     - [3.4.6 避免出现空悬节点和死节点](#bp-graphs-dangling-nodes)
 - [4. 静态模型](#4)
-  - [4.1 静态模型的UVs](#s-uvs)
+  - [4.1 静态模型的UV](#s-uvs)
     - [4.1.1 静态模型需要包含UV](#s-uvs-no-missing)
     - [4.1.2 静态模型的UV须要避免互相覆盖](#s-uvs-no-overlapping)
   - [4.2 正确的设置LOD](#s-lods)
@@ -1223,13 +1223,13 @@ Good examples:
 不要试图让节点对齐，对齐的应该是连线。你无法控制一个节点的大小和上面连接点的位置，但你能通过控制节点的位置来控制连线。笔直的连线让整个蓝图清晰美观，歪歪扭扭的连线会让蓝图丑陋不堪。可以通过蓝图编辑器提供的功能直接让连线变直，方法是选择好节点，用快捷键Q
 
 好的例子: 所有上面的节点的执行线都保持为直线。
-![Aligned By Wires](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-good.png "Aligned By Wires")
+![Aligned By Wires](https://github.com/thejinchao/ue5-style-guide/blob/main/images/bp-graphs-align-wires-good.png "Aligned By Wires")
 
 不好的例子: 右上角节点的执行线歪了
-![Bad](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-bad.png "Wiggly")
+![Bad](https://github.com/thejinchao/ue5-style-guide/blob/main/images/bp-graphs-align-wires-bad.png "Wiggly")
 
 可接受的例子: 有些节点无论你怎么用对齐工具都无法对齐，这种情况下，就尽量缩短它们之间连线的长度。
-![Acceptable](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-acceptable.png "Acceptable")
+![Acceptable](https://github.com/thejinchao/ue5-style-guide/blob/main/images/bp-graphs-align-wires-acceptable.png "Acceptable")
 
 <a name="3.4.3"></a>
 <a name="bp-graphs-exec-first-class"></a>
@@ -1262,191 +1262,186 @@ Good examples:
 <a name="4"></a>
 <a name="Static Meshes"></a>
 <a name="s"></a>
-## 4. Static Meshes
+## 4. 静态模型
 
-This section will focus on Static Mesh assets and their internals.
+这一节关注的是静态模型以及相关资源
 
 <a name="4.1"></a>
 <a name="s-uvs"></a>
-### 4.1 Static Mesh UVs
+### 4.1 静态模型的UV
 
-If Linter is reporting bad UVs and you can't seem to track it down, open the resulting `.log` file in your project's `Saved/Logs` folder for exact details as to why it's failing. I am hoping to include these messages in the Lint report in the future.
+使用Linter工具扫描工程报告错误和UV相关的错误时，如果您似乎无法追踪它，请打开项目的“Saved/Logs”文件夹中生成的“.log”文件，以获取有关失败原因的确切详细信息。 我希望将来能够将这些消息包含在Linter报告中。
 
 <a name="4.1.1"></a>
 <a name="s-uvs-no-missing"></a>
-#### 4.1.1 All Meshes Must Have UVs
+#### 4.1.1 静态模型需要包含UV
 
-Pretty simple. All meshes, regardless how they are to be used, should not be missing UVs.
+很简单，所有的静态模型资源，不管他们要被怎么使用，都不应该不包含UV数据。
 
 <a name="4.1.2"></a>
 <a name="s-uvs-no-overlapping"></a>
-#### 4.1.2 All Meshes Must Not Have Overlapping UVs for Lightmaps
+#### 4.1.2 静态模型的UV须要避免互相覆盖
 
-Pretty simple. All meshes, regardless how they are to be used, should have valid non-overlapping UVs.
+同样很简单，所有的静态模型资源，不管他们要被怎么使用，都应该有正确的不互相覆盖的UV数据。
 
 <a name="4.2"></a>
 <a name="s-lods"></a>
-### 4.2 LODs Should Be Set Up Correctly
+### 4.2 正确的设置LOD
 
-This is a subjective check on a per-project basis, but as a general rule any mesh that can be seen at varying distances should have proper LODs.
+这是一项工程级别的偏主观的检查，作为一条广为人知的规则，所有在玩家视野中会出现的物体，都应该正确的设置LOD数据。
 
 <a name="4.3"></a>
 <a name="s-modular-snapping"></a>
-### 4.3 Modular Socketless Assets Should Snap To The Grid Cleanly
+### 4.3 不带插槽的模块化的模型需要严格对齐网格
 
-This is a subjective check on a per-asset basis, however any modular socketless assets should snap together cleanly based on the project's grid settings.
+这是一项针对每个具体资产的偏主观检查，模块化模型如何能够正确的对齐是基于工程设置中的和网格相关的设置。
 
-It is up to the project whether to snap based on a power of 2 grid or on a base 10 grid. However if you are authoring modular socketless assets for the marketplace, Epic's requirement is that they snap cleanly when the grid is set to 10 units or bigger.
+模块对齐大小是2的幂还是10的倍数也是取决于项目设置，不过如果你想把你的资产在商城中出售，Epic的规定是对齐网格大小是10个单位或者更大。
 
 <a name="4.4"></a>
 <a name="s-collision"></a>
-### 4.4 All Meshes Must Have Collision
+### 4.4 所有模型需要有碰撞体
 
-Regardless of whether an asset is going to be used for collision in a level, all meshes should have proper collision defined. This helps the engine with things such as bounds calculations, occlusion, and lighting. Collision should also be well-formed to the asset.
+无论模型是否将会在关卡中产生物理碰撞，都应定义正确物理碰撞体数据。 这有助于引擎进行绑定盒计算、遮挡和照明等工作。 资产的碰撞体也需要良好的定义。
 
 <a name="4.5"></a>
 <a name="s-scaled"></a>
-### 4.5 All Meshes Should Be Scaled Correctly
+### 4.5 所有模型资源需要正确的缩放系数
 
-This is a subjective check on a per-project basis, however all assets should be scaled correctly to their project. Level designers or blueprint authors should not have to tweak the scale of meshes to get them to confirm in the editor. Scaling meshes in the engine should be treated as a scale override, not a scale correction.
+这是一项工程级别的偏主观的检查，所有模型都应根据其项目设置正确的大小。 关卡设计师或蓝图作者大部分情况下都不必在使用模型时，再去调整模型的放缩系数。 在引擎中的缩放模型应被视为一种调整，而不是校正。
 
-**[⬆ Back to Top](#table-of-contents)**
-
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="5"></a>
 <a name="Niagara"></a>
 <a name="ng"></a>
 ## 5. Niagara
 
-This section will focus on Niagara assets and their internals.
+这一小节关注的是Niagara和相关资产。
 
 <a name="5.1"></a>
 <a name="ng-rules"></a>
-### 5.1 No Spaces, Ever
+### 5.1 永远都不要用空格
 
-As mentioned in [00.1 Forbidden Identifiers](#00), spaces and all white space characters are forbidden in identifiers. This is especially true for Niagara systems as it makes working with things significantly harder if not impossible when working with HLSL or other means of scripting within Niagara and trying to reference an identifier.
+正如[禁止使用的字符](#00.1) 中提到的，标识符中严禁使用空格和所有空白字符。 对于 Niagara系统尤其如此，因为在Niagara中使用HLSL或其他脚本，当这些脚本尝试引用带空格的标识符时，会使事情变得更加困难。
 
-(Original Contribution by [@dunenkoff](https://github.com/Allar/ue5-style-guide/issues/58))
+(该条款贡献者为[@dunenkoff](https://github.com/Allar/ue5-style-guide/issues/58))
 
-
-**[⬆ Back to Top](#table-of-contents)**
-
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="6"></a>
 <a name="Levels"></a>
 <a name="levels"></a>
-## 6. Levels / Maps
+## 6. 关卡 / 地图
 
-[See Terminology Note](#terms-level-map) regarding "levels" vs "maps".
+[请参照术语中](#terms-level-map) 对 "关卡" 和 "地图"的解释
 
-This section will focus on Level assets and their internals.
+本小节关注的是关卡及其相关资产
 
 <a name="6.1"></a>
 <a name="levels-no-errors-or-warnings"></a>
-### 6.1 No Errors Or Warnings
+### 6.1 解决掉错误和警告
 
-All levels should load with zero errors or warnings. If a level loads with any errors or warnings, they should be fixed immediately to prevent cascading issues.
+所有关卡的加载对错误和警告都应为零容忍的。如果关卡加载时出现任何错误或警告，应立即修复它们以防止连锁问题。
 
-You can run a map check on an open level in the editor by using the console command "map check".
+您可以在控制台使用命令“map check”在编辑器中运行地图检查工具。
 
-Please note: Linter is even more strict on this than the editor is currently, and will catch load errors that the editor will resolve on its own.
+请注意：Linter对关卡的检查比编辑器更加严格，并且会捕获那些编辑器自行解决的错误。
 
 <a name="6.2"></a>
 <a name="levels-lighting-should-be-built"></a>
-### 6.2 Lighting Should Be Built
+### 6.2 记得构建光照
 
-It is normal during development for levels to occasionally not have lighting built. When doing a test/internal/shipping build or any build that is to be distributed however, lighting should always be built.
+在项目开发过程中，偶尔没有构建照明是正常的。 然而在进行测试/内测/正式版构建时，或任何可能会分发的构建时，都应始终构建光照。
 
 <a name="6.3"></a>
 <a name="levels-no-visible-z-fighting"></a>
-### 6.3 No Player Visible Z Fighting
+### 6.3 不要让玩家看到Z Fighting
 
-Levels should not have any [z-fighting](https://en.wikipedia.org/wiki/Z-fighting) in all areas visible to the player.
+不要让玩家在关卡中任何可见区域中发现[z-fighting](https://en.wikipedia.org/wiki/Z-fighting)。
 
 <a name="6.4"></a>
 <a name="levels-mp-rules"></a>
-### 6.4 Marketplace Specific Rules
+### 6.4 商城需要遵守的规范
 
-If a project is to be sold on the UE4 Marketplace, it must follow these rules.
+如果是需要上架UE商城的资源工程，需要额外遵守以下规范。
 
 <a name="6.4.1"></a>
 <a name="levels-mp-rules-overview"></a>
-#### 6.4.1 Overview Level
+#### 6.4.1 预览场景
 
-If your project contains assets that should be visualized or demoed, you must have a map within your project that contains the name "Overview".
+如果您的项目有可视的美术资产，则您的项目中必须有一个名称中带有“Overview”的地图。
 
-This overview map, if it is visualizing assets, should be set up according to [Epic's guidelines](http://help.epicgames.com/customer/en/portal/articles/2592186-marketplace-submission-guidelines-preparing-your-assets#Required%20Levels%20and%20Maps).
+而这张预览地图，应该遵守[Epic的规范](http://help.epicgames.com/customer/en/portal/articles/2592186-marketplace-submission-guidelines-preparing-your-assets#Required%20Levels%20and%20Maps).
 
-For example, `InteractionComponent_Overview`.
+例如, `InteractionComponent_Overview`.
 
 <a name="6.4.2"></a>
 <a name="levels-mp-rules-demo"></a>
-#### 6.4.2 Demo Level
+#### 6.4.2 演示场景
 
-If your project contains assets that should be demoed or come with some sort of tutorial, you must have a map within your project that contains the name "Demo". This level should also contain documentation within it in some form that illustrates how to use your project. See Epic's Content Examples project for good examples on how to do this.
+如果您的项目中包含用于演示或者教学的资产，那么工程中有还需要一个名称中带有“Demo”的地图。 此地图应带有某种形式的文档，说明如何使用您的项目。 请参阅 Epic 提供的的"Content Examples project"，了解如何执行此操作的好范例。
 
-If your project is a gameplay mechanic or other form of system as opposed to an art pack, this can be the same as your "Overview" map.
+如果您的项目主要是关于GamePlay或其他内容的，而不是美术资产，那么演示场景可以与预览场景是同一个场景。
 
-For example, `InteractionComponent_Overview_Demo`, `ExplosionKit_Demo`.
+例如, `InteractionComponent_Overview_Demo`, `ExplosionKit_Demo`.
 
-**[⬆ Back to Top](#table-of-contents)**
-
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="7"></a>
 <a name="textures"></a>
-## 7. Textures
+## 7. 纹理
 
-This section will focus on Texture assets and their internals.
+本小节关注的是纹理及其相关资产
 
 <a name="7.1"></a>
 <a name="textures-dimensions"></a>
-### 7.1 Dimensions Are Powers of 2
+### 7.1 纹理尺寸必须是2的幂
 
-All textures, except for UI textures, must have its dimensions in multiples of powers of 2. Textures do not have to be square.
-
-For example, `128x512`, `1024x1024`, `2048x1024`, `1024x2048`, `1x512`.
+所有纹理，尤其是UI纹理，纹理的尺寸必须是2的幂，但并不一定是正方形的。
+例如, `128x512`, `1024x1024`, `2048x1024`, `1024x2048`, `1x512`.
 
 <a name="7.2"></a>
 <a name="textures-density"></a>
-### 7.2 Texture Density Should Be Uniform
+### 7.2 纹理图案密度应该保持一致
 
-All textures should be of a size appropriate for their standard use case. Appropriate texture density varies from project to project, but all textures within that project should have a consistent density.
+所有纹理的大小都应适合项目的标准用例。 每个项目中定义的纹理密度各不相同，但同一个项目中的纹理应具有一致的密度。
 
-For example, if a project's texture density is 8 pixel per 1 unit, a texture that is meant to be applied to a 100x100 unit cube should be 1024x1024, as that is the closest power of 2 that matches the project's texture density.
+例如，如果项目的纹理密度为每1单位8像素，那么用于渲染100x100单位的立方体所使用的纹理应为1024x1024，因为这是与项目纹理密度最接近且是2的幂的纹理尺寸了。
 
 <a name="7.3"></a>
 <a name="textures-max-size"></a>
-### 7.3 Textures Should Be No Bigger than 8192
+### 7.3 纹理大小不要超过8192
 
-No texture should have a dimension that exceeds 8192 in size, unless you have a very explicit reason to do so. Often, using a texture this big is simply just a waste of resources.
+不应该使用超过8K的纹理，除非你有强烈的理由使用它。通常用大纹理只是再浪费资源
 
 <a name="7.4"></a>
 <a name="textures-group"></a>
-### 7.4 Textures Should Be Grouped Correctly
+### 7.4 正确对纹理进行分组
 
-Every texture has a Texture Group property used for LODing, and this should be set correctly based on its use. For example, all UI textures should belong in the UI texture group.
+每个纹理都应该属于一个正确的纹理组，用于做LOD计算，应根据纹理的用途正确设置。 例如，所有UI纹理都应属于UI纹理组
 
-**[⬆ Back to Top](#table-of-contents)**
+**[⬆ 返回顶层](#table-of-contents)**
 
 
-## Major Contributors
+## 主要贡献者
 
 * [Michael Allar](http://allarsblog.com): [GitHub](https://github.com/Allar), [Twitter](https://twitter.com/michaelallar)
 * [CosmoMyzrailGorynych](https://github.com/CosmoMyzrailGorynych)
 * [billymcguffin](https://github.com/billymcguffin)
 * [akenatsu](https://github.com/akenatsu)
 
-## License
+## 版权声明
 
 Copyright (c) 2016 Gamemakin LLC
 
 See [LICENSE](/LICENSE)
 
-**[⬆ Back to Top](#table-of-contents)**
+**[⬆ 返回顶层](#table-of-contents)**
 
 
-## Amendments
+## 修正
 
-We encourage you to fork this guide and change the rules to fit your team's style guide. Below, you may list some amendments to the style guide. This allows you to periodically update your style guide without having to deal with merge conflicts.
+我们鼓励您fork本规范并更根据团队的实际情况对本规范进行修改。但是建议您把所作的修改列在后面，这使您可以定期更新该规范，而不必处理合并冲突。
 
 # };
