@@ -113,7 +113,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是 http://discord.gamemak.
     - [3.3.2 所有函数都应该有返回节点](#bp-funcs-return)
     - [3.3.3 蓝图函数中节点数不应该超过50个](#bp-graphs-funcs-node-limit)
     - [3.3.4 所有Public函数都应该有功能描述](#bp-graphs-funcs-description)
-    - [3.3.5 插件中自定义的可以在蓝图中调用的函数都应该放在以插件名命名的类别中](#bp-graphs-funcs-plugin-category)
+    - [3.3.5 插件中可以在蓝图中调用的自定义函数都应该放在以插件名命名的类别中](#bp-graphs-funcs-plugin-category)
   - [3.4 蓝图节点](#bp-graphs)
     - [3.4.1 不要画‘意面’](#bp-graphs-spaghetti)
     - [3.4.2 保持连线对齐，而不是节点](#bp-graphs-align-wires)
@@ -1026,36 +1026,36 @@ Transient类型的变量是指那些不需要被序列化（保存或者加载�
 
 <a name="3.3"></a>
 <a name="bp-functions"></a>
-### 3.3 Functions, Events, and Event Dispatchers
+### 3.3 函数、事件以及事件派发器
 
-This section describes how you should author functions, events, and event dispatchers. Everything that applies to functions also applies to events, unless otherwise noted.
+这一节用来解释应该如何管理函数、事件以及事件派发器。除非特殊说明，所有适用于函数的规则，同样适用于事件。
 
 <a name="3.3.1"></a>
 <a name="bp-funcs-naming"></a>
-#### 3.3.1 Function Naming
+#### 3.3.1 函数命名
 
-The naming of functions, events, and event dispatchers is critically important. Based on the name alone, certain assumptions can be made about functions. For example:
+对于函数、事件以及事件派发器的命名极其重要，仅仅从一个名字本身，就有很多条件要考虑，比如说：
 
-* Is it a pure function?
-* Is it fetching state information?
-* Is it a handler?
-* Is it an RPC?
-* What is its purpose?
+* 是纯虚函数吗？
+* 是状态查询函数吗?
+* 是事件响应函数吗?
+* 是远程调用函数吗?
+* 函数的目的是什么？
 
-These questions and more can all be answered when functions are named appropriately.
+如果命名得当，这些问题甚至更多问题的答案会在名字中体现出来。
 
 <a name="3.3.1.1"></a>
 <a name="bp-funcs-naming-verbs"></a>
-#### 3.3.1.1 All Functions Should Be Verbs
+#### 3.3.1.1 所有函数的命名都应该是动词
 
-All functions and events perform some form of action, whether its getting info, calculating data, or causing something to explode. Therefore, all functions should all start with verbs. They should be worded in the present tense whenever possible. They should also have some context as to what they are doing.
+所有函数和事件执行者都是需要做一些动作，可能是去获取信息，也可能是数据计算，或者搞点什么事情。因此，所有函数都应该用动词开始，并且用一般现代时态，并且有上下文来表明它们究竟在做什么
 
-`OnRep` functions, event handlers, and event dispatchers are an exception to this rule.
+`OnRep` 这样的响应函数，事件具柄和事件派发器的命名不遵守这个规则。
 
-Good examples:
+好的例子:
 
-* `Fire` - Good example if in a Character / Weapon class, as it has context. Bad if in a Barrel / Grass / any ambiguous class.
-* `Jump` - Good example if in a Character class, otherwise, needs context.
+* `Fire` - 如果类是一个角色或者武器，那么这是一个好命名，如果是木桶，玻璃，那这个函数就会让人困惑了。
+* `Jump` - 如果类是一个角色，那么这是个好名字，如果不是，那么需要一些上下文来解释这个函数的含义
 * `Explode`
 * `ReceiveMessage`
 * `SortPlayerArray`
@@ -1063,31 +1063,31 @@ Good examples:
 * `GetCoordinates`
 * `UpdateTransforms`
 * `EnableBigHeadMode`
-* `IsEnemy` - ["Is" is a verb.](http://writingexplained.org/is-is-a-verb)
+* `IsEnemy` - ["Is" 是个动词](http://writingexplained.org/is-is-a-verb)
 
-Bad examples:
+不好的例子:
 
-* `Dead` - Is Dead? Will deaden?
+* `Dead` - 是已经死了？还是死的动作?
 * `Rock`
-* `ProcessData` - Ambiguous, these words mean nothing.
-* `PlayerState` - Nouns are ambiguous.
-* `Color` - Verb with no context, or ambiguous noun.
+* `ProcessData` - 无意义，这个名字等于没说.
+* `PlayerState` - 不能用名词
+* `Color` - 如果是动词，那么缺少上下文，如果是名词，也不行.
 
 <a name="3.3.1.2"></a>
 <a name="bp-funcs-naming-onrep"></a>
-#### 3.3.1.2 Property RepNotify Functions Always `OnRep_Variable`
+#### 3.3.1.2 属性的状态变化响应函数应该命名为`OnRep_Variable`
 
-All functions for replicated with notification variables should have the form `OnRep_Variable`. This is forced by the Blueprint editor. If you are writing a C++ `OnRep` function however, it should also follow this convention when exposing it to Blueprints.
+所有用来响应状态变化的函数应该用`OnRep_Variable`的形式，这是由蓝图编辑器强制规定的，如果你在C++中写`OnRep`函数，应该同样遵守这个规则。
 
 <a name="3.3.1.3"></a>
 <a name="bp-funcs-naming-bool"></a>
-#### 3.3.1.3 Info Functions Returning Bool Should Ask Questions
+#### 3.3.1.3 返回布尔变量的信息查询函数应该是问询函数
 
-When writing a function that does not change the state of or modify any object and is purely for getting information, state, or computing a yes/no value, it should ask a question. This should also follow [the verb rule](#bp-funcs-naming-verbs).
+如果一个函数不改变类的状态，并且只是返回信息、状态或者计算返回给调用者yes/no，这应该是一个问询函数。同样遵守[动词规则](#bp-funcs-naming-verbs)。
 
-This is extremely important as if a question is not asked, it may be assumed that the function performs an action and is returning whether that action succeeded.
+非常重要的是，应该假定这样的函数其实就是执行某种动作，并且返回动作是否执行成功。
 
-Good examples:
+好的例子:
 
 * `IsDead`
 * `IsOnFire`
@@ -1095,28 +1095,28 @@ Good examples:
 * `IsSpeaking`
 * `IsHavingAnExistentialCrisis`
 * `IsVisible`
-* `HasWeapon` - ["Has" is a verb.](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
-* `WasCharging` - ["Was" is past-tense of "be".](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html) Use "was" when referring to 'previous frame' or 'previous state'.
-* `CanReload` - ["Can" is a verb.](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
+* `HasWeapon` - ["Has" 是动词.](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
+* `WasCharging` - ["Was" 是动词"be"的过去式](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html) 用 "was"表示查询以前的状态
+* `CanReload` - ["Can"是动词](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
 
-Bad examples:
+坏的例子:
 
-* `Fire` - Is on fire? Will fire? Do fire?
-* `OnFire` - Can be confused with event dispatcher for firing.
-* `Dead` - Is dead? Will deaden?
-* `Visibility` - Is visible? Set visibility? A description of flying conditions?
+* `Fire` - 是查询正在开火？还是查询能不能开火？
+* `OnFire` - 有可能和事件派发器函数混淆
+* `Dead` - 是查询已经死亡？还是查询会不会死亡？
+* `Visibility` - 是查询可见状态？还是设置可见状态？
 
 <a name="3.3.1.4"></a>
 <a name="bp-funcs-naming-eventhandlers"></a>
-#### 3.3.1.4 Event Handlers and Dispatchers Should Start With `On`
+#### 3.3.1.4 事件的响应函数和派发函数都应该以`On`开头
 
-Any function that handles an event or dispatches an event should start with `On` and continue to follow [the verb rule](#bp-funcs-naming-verbs). The verb may move to the end however if past-tense reads better.
+事件的响应函数和派发函数都应该以`On`开头，然后遵守[动词规则](#bp-funcs-naming-verbs)，如果是过去式，那么动词应该移到最后以方便阅读
 
-[Collocations](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) of the word `On` are exempt from following the verb rule.
+在遵守动词规则的时候，需要优先考虑英语中的[固定句式](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) 
 
-`Handle` is not allowed. It is 'Unreal' to use `On` instead of `Handle`, while other frameworks may prefer to use `Handle` instead of `On`.
+有一些系统用`Handle`来表示事件响应，但在'Unreal'用的是`On`而不是`Handle`，
 
-Good examples:
+好的例子:
 
 * `OnDeath` - Common collocation in games
 * `OnPickup`
@@ -1126,7 +1126,7 @@ Good examples:
 * `OnClick`
 * `OnLeave`
 
-Bad examples:
+坏的例子:
 
 * `OnData`
 * `OnTarget`
@@ -1135,125 +1135,129 @@ Bad examples:
 
 <a name="3.3.1.5"></a>
 <a name="bp-funcs-naming-rpcs"></a>
-#### 3.3.1.5 Remote Procedure Calls Should Be Prefixed With Target
+#### 3.3.1.5 远程调用函数应该用目标作为前缀
 
 Any time an RPC is created, it should be prefixed with either `Server`, `Client`, or `Multicast`. No exceptions.
 
 After the prefix, follow all other rules regarding function naming.
 
 Good examples:
+任何时候创建RPC函数，都应该把目标作为前缀放在前面，例如`Server`、 `Client`或者 `Multicast`，没有例外。
+
+前缀之后的部分，遵守上面的其他规则。
+
+好的例子:
 
 * `ServerFireWeapon`
 * `ClientNotifyDeath`
 * `MulticastSpawnTracerEffect`
 
-Bad examples:
+坏的例子:
 
-* `FireWeapon` - Does not indicate its an RPC of some kind.
-* `ServerClientBroadcast` - Confusing.
-* `AllNotifyDeath` - Use `Multicast`, never `All`.
-* `ClientWeapon` - No verb, ambiguous.
+* `FireWeapon` - 没有使用目标前缀
+* `ServerClientBroadcast` - 混乱
+* `AllNotifyDeath` - 用 `Multicast`, 不要用 `All`.
+* `ClientWeapon` - 没有用动词, 让人困惑.
 
 
 <a name="3.3.2"></a>
 <a name="bp-funcs-return"></a>
-#### 3.3.2 All Functions Must Have Return Nodes
+#### 3.3.2 所有函数都应该有返回节点
 
-All functions must have return nodes, no exceptions.
+所有函数都应该有返回节点，没有例外。
 
-Return nodes explicitly note that a function has finished its execution. In a world where blueprints can be filled with `Sequence`, `ForLoopWithBreak`, and backwards reroute nodes, explicit execution flow is important for readability, maintenance, and easier debugging.
+返回节点明确标注了蓝图到此执行完毕。蓝图中的结构有可能有并行结构`Sequence`、循环结构`ForLoopWithBreak`或者逆向的回流节点组成，明确结束节点使蓝图易于阅读维护和调试。
 
-The Blueprint compiler is able to follow the flow of execution and will warn you if there is a branch of your code with an unhandled return or bad flow if you use return nodes.
+如果启用了返回节点，当你的蓝图中有分支没有正常返回，或者流程有问题，蓝图的编译器会提出警告。
 
-In situations like where a programmer may add a pin to a Sequence node or add logic after a for loop completes but the loop iteration might return early, this can often result in an accidental error in code flow. The warnings the Blueprint compiler will alert everyone of these issues immediately.
+比如说，有程序员在并行序列中添加了一个新的分支，或者在循环体外添加逻辑但没有考虑到循环中的意外返回，那么这些情况都会造成蓝图的执行序列出现意外。蓝图编译器会立即给这些情况提出警告。
 
 <a name="3.3.3"></a>
 <a name="bp-graphs-funcs-node-limit"></a>
-#### 3.3.3 No Function Should Have More Than 50 Nodes
+#### 3.3.3 蓝图函数中节点数不应该超过50个
 
-Simply, no function should have more than 50 nodes. Any function this big should be broken down into smaller functions for readability and ease of maintenance.
+简单来说，蓝图函数中的节点数应该小于50个，如果函数过于复杂，应该把它分割成几个小一点的函数，以便更好的阅读和维护。
 
-The following nodes are not counted as they are deemed to not increase function complexity:
+在蓝图中添加以下节点不用计算个数，因为它们并不会增加蓝图的复杂度：
 
-* Comment
-* Route
-* Cast
-* Getting a Variable
-* Breaking a Struct
-* Function Entry
-* Self
+* Comment - 注释
+* Route - 路由节点
+* Cast - 类型转换节点
+* Getting a Variable - 获取变量
+* Breaking a Struct - 结构分解节点
+* Function Entry - 函数入口
+* Self - 自身节点
 
 <a name="3.3.4"></a>
 <a name="bp-graphs-funcs-description"></a>
-#### 3.3.4 All Public Functions Should Have A Description
+#### 3.3.4 所有Public函数都应该有功能描述
 
-This rule applies more to public facing or marketplace blueprints, so that others can more easily navigate and consume your blueprint API.
+此规则更适用于公开或在市场出售的蓝图，以便其他人可以更轻松地浏览和使用您的蓝图。
 
-Simply, any function that has an access specificer of Public should have its description filled out.
+简而言之，任何具有 Public 访问权限的函数都应该填写其描述。
 
 <a name="3.3.5"></a>
 <a name="bp-graphs-funcs-plugin-category"></a>
-#### 3.3.5 All Custom Static Plugin `BlueprintCallable` Functions Must Be Categorized By Plugin Name
+#### 3.3.5 插件中可以在蓝图中调用的自定义函数都应该放在以插件名命名的类别中
 
-If your project includes a plugin that defines `static` `BlueprintCallable` functions, they should have their category set to the plugin's name or a subset category of the plugin's name.
+如果你的工程包含插件，插件中定义了一些静态的可以被蓝图调用的函数，那么这些函数(`Category`)的类别应该被设置成插件的名称。
 
-For example, `Zed Camera Interface` or `Zed Camera Interface | Image Capturing`.
+例如，`Zed Camera Interface` 或者 `Zed Camera Interface | Image Capturing`.
 
 <a name="3.4"></a>
 <a name="bp-graphs"></a>
-### 3.4 Blueprint Graphs
+### 3.4 蓝图图形
 
-This section covers things that apply to all Blueprint graphs.
+本节包含了关于蓝图图形的内容
 
 <a name="3.4.1"></a>
 <a name="bp-graphs-spaghetti"></a>
-#### 3.4.1 No Spaghetti
+#### 3.4.1 不要画‘意面’
 
-Wires should have clear beginnings and ends. You should never have to mentally untangle wires to make sense of a graph. Many of the following sections are dedicated to reducing spaghetti.
+蓝图中所有连线都应该有清晰的开始点和结束点。你的蓝图不应该让阅读者在一堆乱糟糟的线中翻来翻去。以下内容可以帮你避免‘意大利面’样式的蓝图产生。
 
 <a name="3.4.2"></a>
 <a name="bp-graphs-align-wires"></a>
-#### 3.4.2 Align Wires Not Nodes
+#### 3.4.2 保持连线对齐，而不是节点
 
-Always align wires, not nodes. You can't always control the size and pin location on a node, but you can always control the location of a node and thus control the wires. Straight wires provide clear linear flow. Wiggly wires wear wits wickedly. You can straighten wires by using the Straighten Connections command with BP nodes selected. Hotkey: Q
+不要试图让节点对齐，对齐的应该是连线。你无法控制一个节点的大小和上面连接点的位置，但你能通过控制节点的位置来控制连线。笔直的连线让整个蓝图清晰美观，歪歪扭扭的连线会让蓝图丑陋不堪。可以通过蓝图编辑器提供的功能直接让连线变直，方法是选择好节点，用快捷键Q
 
-Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
-![Aligned By Wires](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-good.png?raw=true "Aligned By Wires")
+好的例子: 所有上面的节点的执行线都保持为直线。
+![Aligned By Wires](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-good.png "Aligned By Wires")
 
-Bad Example: The tops of the nodes are aligned creating a wiggly white exec line.
-![Bad](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-bad.png?raw=true "Wiggly")
+不好的例子: 右上角节点的执行线歪了
+![Bad](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-bad.png "Wiggly")
 
-Acceptable Example: Certain nodes might not cooperate no matter how you use the alignment tools. In this situation, try to minimize the wiggle by bringing the node in closer.
-![Acceptable](https://github.com/Allar/ue5-style-guide/blob/main/images/bp-graphs-align-wires-acceptable.png?raw=true "Acceptable")
+可接受的例子: 有些节点无论你怎么用对齐工具都无法对齐，这种情况下，就尽量缩短它们之间连线的长度。
+![Acceptable](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-acceptable.png "Acceptable")
 
 <a name="3.4.3"></a>
 <a name="bp-graphs-exec-first-class"></a>
-#### 3.4.3 White Exec Lines Are Top Priority
+#### 3.4.3 白色的可执行线优先级最高
 
-If you ever have to decide between straightening a linear white exec line or straightening data lines of some kind, always straighten the white exec line.
+如果发现白色执行线和其他数据线无法同时对齐，白色执行线的优先级更高。
 
 <a name="3.4.4"></a>
 <a name="bp-graphs-block-comments"></a>
-#### 3.4.4 Graphs Should Be Reasonably Commented
+#### 3.4.4 蓝图需要有合理的注释
 
-Blocks of nodes should be wrapped in comments that describe their higher-level behavior. While every function should be well named so that each individual node is easily readable and understandable, groups of nodes contributing to a purpose should have their purpose described in a comment block. If a function does not have many blocks of nodes and its clear that the nodes are serving a direct purpose in the function's goal, then they do not need to be commented as the function name and  description should suffice.
+要善用蓝图的注释块，把相关的节点包含在注释块中，并在注释中描述这些功能节点的行为。虽然每个函数都应该被正确命名，以便每个单独的节点都易于理解，但仍然需要在注释中描述出为某个整体功能做出贡献的节点组的具体作用。如果一个函数没有很多节点块，并且很明显这些节点在函数目标中服务于最终目的，则不需要再对它们进行注释，函数名称和其描述中包含的信息就足够了。
 
 <a name="3.4.5"></a>
 <a name="bp-graphs-cast-error-handling"></a>
-#### 3.4.5 Graphs Should Handle Casting Errors Where Appropriate
+#### 3.4.5 蓝图中需要在适当的地方处理类型转换错误
 
-If a function or event assumes that a cast always succeeds, it should appropriately report a failure in logic if the cast fails. This lets others know why something that is 'supposed to work' doesn't. A function should also attempt a graceful recover after a failed cast if it's known that the reference being casted could ever fail to be casted.
+如果在函数或者蓝图事件处理过程中，总是假定类型转换应该是成功的，那么一旦出现类型转换失败，那应该及时报错，这使得其他模块得到通知，一件“应该正确工作”的函数没有正确工作。函数还应该在类型转换失败后，正确的恢复工作。
 
-This does not mean every cast node should have its failure handled. In many cases, especially events regarding things like collisions, it is expected that execution flow terminates on a failed cast quietly.
+但这并不是强制要求所有的类型转换节点都要处理失败的情况，在很多情景中，尤其是类似于处理物理碰撞这样的事件中，处理类型转换失败就是悄悄结束而已就够了。
 
 <a name="3.4.6"></a>
 <a name="bp-graphs-dangling-nodes"></a>
-#### 3.4.6 Graphs Should Not Have Any Dangling / Loose / Dead Nodes
+#### 3.4.6 避免出现空悬节点和死节点
 
-All nodes in all blueprint graphs must have a purpose. You should not leave dangling blueprint nodes around that have no purpose or are not executed.
+所有蓝图中的节点都应该有其存在的意义，不要把空悬的节点，不会被执行的节点放在蓝图中
 
-**[⬆ Back to Top](#table-of-contents)**
-
+**[⬆ 返回顶层](#table-of-contents)**
 
 <a name="4"></a>
 <a name="Static Meshes"></a>
